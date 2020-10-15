@@ -19,8 +19,7 @@ public class UserServiceImpl implements UserService {
 
     private final EmailService emailService;
 
-    @Override
-    public void duplicateCheck(String email) {
+    private void duplicateCheck(String email) {
         userRepository.findByEmail(email).ifPresent(user -> {
             throw new UserAlreadyExistExcpetion();
         });
