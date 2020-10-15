@@ -6,9 +6,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pipi.api.domain.user.dto.EmailSendRequest;
+import pipi.api.domain.user.dto.EmailVerifyRequest;
 import pipi.api.domain.user.service.UserService;
-
-import javax.validation.constraints.Email;
 
 @RestController
 @RequestMapping("/user")
@@ -19,5 +18,10 @@ public class UserController {
     @PostMapping("/email")
     public void sendEmail(@RequestBody EmailSendRequest emailSendRequest) {
         userService.sendEmail(emailSendRequest);
+    }
+
+    @PostMapping("/email/check")
+    public void verifyCode(@RequestBody EmailVerifyRequest emailVerifyRequest) {
+        userService.verifyCode(emailVerifyRequest);
     }
 }
