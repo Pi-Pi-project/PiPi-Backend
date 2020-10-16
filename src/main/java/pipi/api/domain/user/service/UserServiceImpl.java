@@ -1,5 +1,7 @@
 package pipi.api.domain.user.service;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import pipi.api.domain.user.domain.EmailVerification;
 import pipi.api.domain.user.domain.enums.EmailVerificationStatus;
 import pipi.api.domain.user.domain.repository.EmailVerificationRepository;
@@ -10,6 +12,8 @@ import pipi.api.domain.user.exception.UserAlreadyExistException;
 
 import java.util.Random;
 
+@Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final EmailVerificationRepository emailVerificationRepository;
