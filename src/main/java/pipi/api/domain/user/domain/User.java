@@ -42,4 +42,13 @@ public class User {
 
     @OneToMany(mappedBy = "userEmail", cascade = CascadeType.ALL)
     private List<Post> posts;
+
+    @OneToMany(mappedBy = "userEmail", cascade = CascadeType.ALL)
+    private List<UserSkillset> userSkillsets;
+
+    public User setImage(String profileImg) {
+        this.profileImg = profileImg;
+
+        return this;
+    }
 }
