@@ -6,8 +6,11 @@ import pipi.api.domain.user.domain.EmailVerification;
 import pipi.api.domain.user.domain.enums.EmailVerificationStatus;
 import pipi.api.domain.user.domain.repository.EmailVerificationRepository;
 import pipi.api.domain.user.domain.repository.UserRepository;
+import pipi.api.domain.user.dto.EmailCheckRequest;
 import pipi.api.domain.user.dto.EmailSendRequest;
 import pipi.api.domain.user.dto.UserRegisterRequest;
+import pipi.api.domain.user.exception.InvalidAuthCodeException;
+import pipi.api.domain.user.exception.InvalidAuthEmailException;
 import pipi.api.domain.user.exception.UserAlreadyExistException;
 
 import java.util.Random;
@@ -39,6 +42,20 @@ public class UserServiceImpl implements UserService {
                         .status(EmailVerificationStatus.UNVERIFIED)
                         .build()
         );
+    }
+
+    @Override
+    public void checkAuthCode(EmailCheckRequest emailCheckRequest) {
+        String email = emailCheckRequest.getEmail();
+        String code = emailCheckRequest.getCode();
+
+        EmailVerification emailVerification = emailVerificationRepository.findById(email)
+                .orElseThrow(InvalidAuthEmailException::new);
+
+        if(!emailVerification.getCode().equals(code))
+            throw new InvalidAuthCodeException();
+
+        emailVerificationRepository.save(emailVerification.verify());
     }
 
     private String randomCode() {
