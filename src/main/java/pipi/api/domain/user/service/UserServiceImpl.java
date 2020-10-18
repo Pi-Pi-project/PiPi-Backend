@@ -1,38 +1,48 @@
 package pipi.api.domain.user.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pipi.api.domain.user.domain.EmailVerification;
 import pipi.api.domain.user.domain.User;
+import pipi.api.domain.user.domain.UserSkillset;
+import pipi.api.domain.user.domain.enums.Admin;
 import pipi.api.domain.user.domain.enums.EmailVerificationStatus;
 import pipi.api.domain.user.domain.repository.EmailVerificationRepository;
 import pipi.api.domain.user.domain.repository.UserRepository;
-import pipi.api.domain.user.dto.EmailCheckRequest;
-import pipi.api.domain.user.dto.EmailSendRequest;
-import pipi.api.domain.user.dto.TokenResponse;
-import pipi.api.domain.user.dto.UserRegisterRequest;
+import pipi.api.domain.user.domain.repository.UserSkillsetRepository;
+import pipi.api.domain.user.dto.*;
 import pipi.api.domain.user.exception.InvalidAuthCodeException;
 import pipi.api.domain.user.exception.InvalidAuthEmailException;
 import pipi.api.domain.user.exception.UserAlreadyExistException;
+import pipi.api.global.config.AuthenticationFacade;
 import pipi.api.global.config.JwtTokenProvider;
+import pipi.api.global.error.exception.UserNotFoundException;
 
+import java.io.File;
 import java.util.Random;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final EmailVerificationRepository emailVerificationRepository;
+    private final UserSkillsetRepository userSkillsetRepository;
 
     private final EmailService emailService;
 
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
+    private final AuthenticationFacade authenticationFacade;
 
     @Value("${secret.prefix}")
     private String prefix;
+
+    @Value("${image.upload.dir}")
+    private String imageDirPath;
 
     private void isExists(String email) {
         userRepository.findByEmail(email).ifPresent(user -> {
@@ -63,7 +73,7 @@ public class UserServiceImpl implements UserService {
         EmailVerification emailVerification = emailVerificationRepository.findById(email)
                 .orElseThrow(InvalidAuthEmailException::new);
 
-        if(!emailVerification.getCode().equals(code))
+        if (!emailVerification.getCode().equals(code))
             throw new InvalidAuthCodeException();
 
         emailVerificationRepository.save(emailVerification.verify());
@@ -73,12 +83,13 @@ public class UserServiceImpl implements UserService {
     public TokenResponse register(UserRegisterRequest userRegisterRequest) {
         String email = userRegisterRequest.getEmail();
         String password = passwordEncoder.encode(userRegisterRequest.getPassword());
-        
+
         userRepository.save(
                 User.builder()
                         .email(email)
                         .password(password)
                         .nickname(userRegisterRequest.getNickname())
+                        .admin(Admin.USER)
                         .build()
         );
 
@@ -91,6 +102,31 @@ public class UserServiceImpl implements UserService {
                 .refreshToken(jwtTokenProvider.generateRefreshToken(email))
                 .tokenType(prefix)
                 .build();
+    }
+
+    @SneakyThrows
+    @Override
+    public void setProfile(SetProfileRequest setProfileRequest) {
+        User user = userRepository.findByEmail(authenticationFacade.getUserEmail())
+                .orElseThrow(UserNotFoundException::new);
+        String imageName;
+        if (setProfileRequest.getProfileImg() != null) {
+            imageName = UUID.randomUUID().toString();
+            setProfileRequest.getProfileImg().transferTo(new File(imageDirPath, imageName));
+        } else {
+            imageName = "user.jpg";
+        }
+        userRepository.save(user.setProfile(imageName, setProfileRequest.getGiturl(), setProfileRequest.getIntroduce()));
+        if (setProfileRequest.getSkills() != null) {
+            for (String skill : setProfileRequest.getSkills()) {
+                userSkillsetRepository.save(
+                        UserSkillset.builder()
+                                .userEmail(authenticationFacade.getUserEmail())
+                                .skill(skill)
+                                .build()
+                );
+            }
+        }
     }
 
     private String randomCode() {
