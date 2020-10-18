@@ -37,4 +37,12 @@ public class User {
 
     @OneToMany(mappedBy = "userEmail", cascade = CascadeType.ALL)
     private List<UserSkillset> skillsets;
+
+    public User setProfile(String profileImage, String giturl, String introduce) {
+        this.profileImage = profileImage;
+        this.giturl = giturl;
+        this.introduce = introduce;
+
+        return this;
+    }
 }
