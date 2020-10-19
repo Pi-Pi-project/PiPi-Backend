@@ -21,7 +21,7 @@ public class AuthController {
     }
 
     @GetMapping("/refresh")
-    public RefreshResponse refresh(@RequestHeader("x-refresh-token") String token) {
-        return authService.refresh(token);
+    public RefreshResponse refresh(@RequestHeader("x-refresh-token") String refreshToken) {
+        return authService.refresh(refreshToken);
     }
 }
