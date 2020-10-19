@@ -10,6 +10,7 @@ import lombok.Getter;
 public enum ErrorCode {
     INVALID_AUTH_EMAIL(401,"Invalid Auth Email"),
     INVALID_AUTH_CODE(401,"Invalid Auth Code"),
+    INVALID_TOKEN(401, "Invalid Token"),
     USER_NOT_FOUND(404, "User Not Found"),
     USER_ALREADY_EXISTS(409, "User is Already Exists");
 
