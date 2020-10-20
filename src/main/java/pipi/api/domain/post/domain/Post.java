@@ -1,9 +1,9 @@
 package pipi.api.domain.post.domain;
 
 import lombok.*;
-import pipi.api.domain.post.domain.enums.Category;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -26,8 +26,7 @@ public class Post {
     private String title;
 
     @Column(length = 30)
-    @Enumerated(EnumType.STRING)
-    private Category category;
+    private String category;
 
     @Column(length = 50)
     private String userEmail;
@@ -37,4 +36,7 @@ public class Post {
 
     @Column
     private Integer max;
+
+    @Column
+    private LocalDateTime createdAt;
 }
