@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import pipi.api.domain.auth.dto.RefreshResponse;
 import pipi.api.domain.auth.dto.UserLoginRequest;
 import pipi.api.domain.auth.exception.InvalidTokenException;
 import pipi.api.domain.user.domain.User;
@@ -32,13 +31,10 @@ public class AuthServiceImpl implements AuthService{
     }
 
     @Override
-    public RefreshResponse refresh(String token) {
+    public TokenResponse refresh(String token) {
         if (!jwtTokenProvider.isRefreshToken(token)) throw new InvalidTokenException();
         String email = jwtTokenProvider.getUserEmail(token);
-        return RefreshResponse.builder()
-                .accessToken(jwtTokenProvider.generateAccessToken(email))
-                .tokenType(prefix)
-                .build();
+        return responseToken(email);
     }
 
     private TokenResponse responseToken(String email) {
