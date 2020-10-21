@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+import pipi.api.domain.auth.exception.ExpiredTokenException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -64,6 +65,8 @@ public class JwtTokenProvider {
             Jwts.parser().setSigningKey(secretKey)
                     .parseClaimsJws(token).getBody().getSubject();
             return true;
+        } catch (ExpiredTokenException e) {
+            throw new ExpiredTokenException();
         } catch (Exception e) {
             return false;
         }

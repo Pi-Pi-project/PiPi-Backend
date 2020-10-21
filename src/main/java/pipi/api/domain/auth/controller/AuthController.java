@@ -2,7 +2,6 @@ package pipi.api.domain.auth.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import pipi.api.domain.auth.dto.RefreshResponse;
 import pipi.api.domain.auth.dto.UserLoginRequest;
 import pipi.api.domain.auth.service.AuthService;
 import pipi.api.domain.user.dto.TokenResponse;
@@ -21,7 +20,7 @@ public class AuthController {
     }
 
     @GetMapping("/refresh")
-    public RefreshResponse refresh(@RequestHeader("x-refresh-token") String refreshToken) {
+    public TokenResponse refresh(@RequestHeader("x-refresh-token") String refreshToken) {
         return authService.refresh(refreshToken);
     }
 }
