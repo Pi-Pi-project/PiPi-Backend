@@ -49,4 +49,10 @@ public class User {
 
         return this;
     }
+
+    public User changePassword(String password) {
+        this.password = password;
+
+        return this;
+    }
 }
