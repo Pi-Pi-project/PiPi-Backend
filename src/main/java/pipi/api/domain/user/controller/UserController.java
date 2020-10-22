@@ -32,4 +32,9 @@ public class UserController {
     public void SetProfile(@ModelAttribute @Valid SetProfileRequest setProfileRequest) {
         userService.setProfile(setProfileRequest);
     }
+
+    @PutMapping("/password")
+    public void changePassword(@RequestBody @Valid PasswordChangeRequest passwordChangeRequest) {
+        userService.changePassword(passwordChangeRequest);
+    }
 }
