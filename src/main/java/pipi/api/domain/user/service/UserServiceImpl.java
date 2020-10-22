@@ -129,6 +129,13 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public void changePassword(PasswordChangeRequest passwordChangeRequest) {
+        User user = userRepository.findByEmail(authenticationFacade.getUserEmail())
+                .orElseThrow(UserNotFoundException::new);
+        userRepository.save(user.changePassword(passwordEncoder.encode(passwordChangeRequest.getPassword())));
+    }
+
     private String randomCode() {
                 String[] codes = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"};
 

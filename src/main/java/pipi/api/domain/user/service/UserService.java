@@ -7,4 +7,5 @@ public interface UserService {
     void checkAuthCode(EmailCheckRequest emailCheckRequest);
     TokenResponse register(UserRegisterRequest userRegisterRequest);
     void setProfile(SetProfileRequest setProfileRequest);
+    void changePassword(PasswordChangeRequest passwordChangeRequest);
 }
