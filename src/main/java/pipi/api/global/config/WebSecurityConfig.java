@@ -1,6 +1,7 @@
 package pipi.api.global.config;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,9 +23,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .formLogin().disable()
                 .authorizeRequests()
-                .anyRequest().permitAll()
+                .antMatchers("/user/register").permitAll()
+                .antMatchers("/user/email/**").permitAll()
+                .antMatchers("/auth/**").permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .apply(new JwtConfigurer(jwtTokenProvider));
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext context) {
+        super.setApplicationContext(context);
     }
 
     @Bean
