@@ -8,6 +8,7 @@ import pipi.api.domain.post.domain.Post;
 import pipi.api.domain.post.domain.PostSkillset;
 import pipi.api.domain.post.domain.repository.PostRepository;
 import pipi.api.domain.post.domain.repository.PostSkillsetRepository;
+import pipi.api.domain.post.dto.GetPostsResponse;
 import pipi.api.domain.post.dto.PostWriteRequest;
 import pipi.api.domain.user.domain.User;
 import pipi.api.domain.user.domain.repository.UserRepository;
@@ -16,6 +17,8 @@ import pipi.api.global.error.exception.UserNotFoundException;
 
 import java.io.File;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -53,7 +56,7 @@ public class PostServiceImpl implements PostService {
                         .content(postWriteRequest.getContent())
                         .img(imageName)
                         .max(postWriteRequest.getMax())
-                        .createdAt(LocalDateTime.now())
+                        .createdAt(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")))
                         .build()
         );
         
