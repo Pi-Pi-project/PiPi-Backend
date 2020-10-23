@@ -38,5 +38,5 @@ public class Post {
     private Integer max;
 
     @Column
-    private LocalDateTime createdAt;
+    private String createdAt;
 }
