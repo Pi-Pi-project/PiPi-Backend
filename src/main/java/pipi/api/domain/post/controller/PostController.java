@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
-import pipi.api.domain.post.dto.ApplicationListResponse;
 import pipi.api.domain.post.dto.GetPostsResponse;
 import pipi.api.domain.post.dto.PostWriteRequest;
 import pipi.api.domain.post.service.PostService;

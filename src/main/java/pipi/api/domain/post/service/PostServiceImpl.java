@@ -10,7 +10,6 @@ import pipi.api.domain.post.domain.Post;
 import pipi.api.domain.post.domain.PostSkillset;
 import pipi.api.domain.post.domain.repository.PostRepository;
 import pipi.api.domain.post.domain.repository.PostSkillsetRepository;
-import pipi.api.domain.post.dto.ApplicationListResponse;
 import pipi.api.domain.post.dto.GetPostsResponse;
 import pipi.api.domain.post.dto.PostWriteRequest;
 import pipi.api.domain.user.domain.User;
