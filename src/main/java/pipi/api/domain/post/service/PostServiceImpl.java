@@ -3,11 +3,14 @@ package pipi.api.domain.post.service;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pipi.api.domain.post.domain.Post;
 import pipi.api.domain.post.domain.PostSkillset;
 import pipi.api.domain.post.domain.repository.PostRepository;
 import pipi.api.domain.post.domain.repository.PostSkillsetRepository;
+import pipi.api.domain.post.dto.ApplicationListResponse;
 import pipi.api.domain.post.dto.GetPostsResponse;
 import pipi.api.domain.post.dto.PostWriteRequest;
 import pipi.api.domain.user.domain.User;
@@ -18,6 +21,7 @@ import pipi.api.global.error.exception.UserNotFoundException;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,8 +39,7 @@ public class PostServiceImpl implements PostService {
     @SneakyThrows
     @Override
     public void writeOne(PostWriteRequest postWriteRequest) {
-        System.out.println(authenticationFacade.getUserEmail());
-        User user = userRepository.findByEmail(authenticationFacade.getUserEmail())
+        userRepository.findByEmail(authenticationFacade.getUserEmail())
                 .orElseThrow(UserNotFoundException::new);
 
         String imageName;
@@ -70,5 +73,32 @@ public class PostServiceImpl implements PostService {
                 );
             }
         }
+    }
+
+    @Override
+    public List<GetPostsResponse> getPosts(Pageable pageable) {
+        Page<Post> posts = postRepository.findAllBy(pageable);
+        List<GetPostsResponse> getPostsResponses = new ArrayList<>();
+        for (Post post : posts) {
+            User writer = userRepository.findByEmail(post.getUserEmail())
+                    .orElseThrow(UserNotFoundException::new);
+            List<PostSkillset> skills = postSkillsetRepository.findAllByPostId(post.getId());
+            getPostsResponses.add(
+                    GetPostsResponse.builder()
+                            .id(post.getId())
+                            .title(post.getTitle())
+                            .img(post.getImg())
+                            .category(post.getCategory())
+                            .idea(post.getIdea())
+                            .postSkillsets(skills)
+                            .max(post.getMax())
+                            .userEmail(writer.getEmail())
+                            .userImg(writer.getProfileImage())
+                            .userNickname(writer.getNickname())
+                            .createdAt(post.getCreatedAt())
+                            .build()
+            );
+        }
+        return getPostsResponses;
     }
 }
