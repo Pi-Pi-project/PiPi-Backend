@@ -9,4 +9,5 @@ import pipi.api.domain.post.domain.Post;
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
     Page<Post> findAllBy(Pageable pageable);
+    Page<Post> findAllByUserEmail(String userEmail, Pageable pageable);
 }
