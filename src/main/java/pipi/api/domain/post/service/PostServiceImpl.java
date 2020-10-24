@@ -15,7 +15,9 @@ import pipi.api.domain.post.dto.GetPostsResponse;
 import pipi.api.domain.post.dto.PostWriteRequest;
 import pipi.api.domain.post.exception.PostNotFoundException;
 import pipi.api.domain.user.domain.User;
+import pipi.api.domain.user.domain.UserViewLog;
 import pipi.api.domain.user.domain.repository.UserRepository;
+import pipi.api.domain.user.domain.repository.UserViewLogRepository;
 import pipi.api.global.config.AuthenticationFacade;
 import pipi.api.global.error.exception.UserNotFoundException;
 
@@ -32,6 +34,7 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final PostSkillsetRepository postSkillsetRepository;
     private final UserRepository userRepository;
+    private final UserViewLogRepository userViewLogRepository;
     private final AuthenticationFacade authenticationFacade;
 
     @Value("${image.upload.dir}")
@@ -135,6 +138,12 @@ public class PostServiceImpl implements PostService {
         User writer = userRepository.findByEmail(post.getUserEmail())
                 .orElseThrow(UserNotFoundException::new);
         List<PostSkillset> skills = postSkillsetRepository.findAllByPostId(post.getId());
+        userViewLogRepository.save(
+                UserViewLog.builder()
+                        .userEmail(authenticationFacade.getUserEmail())
+                        .log(post.getCategory())
+                        .build()
+        );
         return GetDetailPostResponse.builder()
                 .id(post.getId())
                 .title(post.getTitle())
