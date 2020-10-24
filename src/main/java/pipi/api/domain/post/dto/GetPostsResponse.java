@@ -15,7 +15,6 @@ public class GetPostsResponse {
     private final String category;
     private final String idea;
     private final List<PostSkillset> postSkillsets;
-    private final Integer max;
     private final String userEmail;
     private final String userImg;
     private final String userNickname;
