@@ -13,6 +13,7 @@ public enum ErrorCode {
     INVALID_TOKEN(401, "Invalid Token"),
     EXPIRED_TOKEN(403, "Expired Token"),
     USER_NOT_FOUND(404, "User Not Found"),
+    POST_NOT_FOUND(404, "Post Not Found"),
     USER_ALREADY_EXISTS(409, "User is Already Exists");
 
     private final int status;
