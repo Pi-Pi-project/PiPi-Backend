@@ -10,8 +10,10 @@ import pipi.api.domain.post.domain.Post;
 import pipi.api.domain.post.domain.PostSkillset;
 import pipi.api.domain.post.domain.repository.PostRepository;
 import pipi.api.domain.post.domain.repository.PostSkillsetRepository;
+import pipi.api.domain.post.dto.GetDetailPostResponse;
 import pipi.api.domain.post.dto.GetPostsResponse;
 import pipi.api.domain.post.dto.PostWriteRequest;
+import pipi.api.domain.post.exception.PostNotFoundException;
 import pipi.api.domain.user.domain.User;
 import pipi.api.domain.user.domain.repository.UserRepository;
 import pipi.api.global.config.AuthenticationFacade;
@@ -124,5 +126,27 @@ public class PostServiceImpl implements PostService {
             );
         }
         return getMyPostsResponses;
+    }
+
+    @Override
+    public GetDetailPostResponse getOne(Long id) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(PostNotFoundException::new);
+        User writer = userRepository.findByEmail(post.getUserEmail())
+                .orElseThrow(UserNotFoundException::new);
+        List<PostSkillset> skills = postSkillsetRepository.findAllByPostId(post.getId());
+        return GetDetailPostResponse.builder()
+                .id(post.getId())
+                .title(post.getTitle())
+                .img(post.getImg())
+                .category(post.getCategory())
+                .idea(post.getIdea())
+                .content(post.getContent())
+                .postSkillsets(skills)
+                .userEmail(writer.getEmail())
+                .userImg(writer.getProfileImage())
+                .userNickname(writer.getNickname())
+                .createdAt(post.getCreatedAt())
+                .build();
     }
 }
