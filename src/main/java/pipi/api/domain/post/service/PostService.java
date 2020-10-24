@@ -9,4 +9,5 @@ import java.util.List;
 public interface PostService {
     void writeOne(PostWriteRequest postWriteRequest);
     List<GetPostsResponse> getPosts(Pageable pageable);
+    List<GetPostsResponse> getMyPosts(Pageable pageable);
 }

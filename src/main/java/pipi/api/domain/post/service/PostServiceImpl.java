@@ -90,7 +90,6 @@ public class PostServiceImpl implements PostService {
                             .category(post.getCategory())
                             .idea(post.getIdea())
                             .postSkillsets(skills)
-                            .max(post.getMax())
                             .userEmail(writer.getEmail())
                             .userImg(writer.getProfileImage())
                             .userNickname(writer.getNickname())
@@ -99,5 +98,31 @@ public class PostServiceImpl implements PostService {
             );
         }
         return getPostsResponses;
+    }
+
+    @Override
+    public List<GetPostsResponse> getMyPosts(Pageable pageable) {
+        Page<Post> posts = postRepository.findAllByUserEmail(authenticationFacade.getUserEmail(), pageable);
+        List<GetPostsResponse> getMyPostsResponses = new ArrayList<>();
+        for (Post post : posts) {
+            User writer = userRepository.findByEmail(post.getUserEmail())
+                    .orElseThrow(UserNotFoundException::new);
+            List<PostSkillset> skills = postSkillsetRepository.findAllByPostId(post.getId());
+            getMyPostsResponses.add(
+                    GetPostsResponse.builder()
+                            .id(post.getId())
+                            .title(post.getTitle())
+                            .img(post.getImg())
+                            .category(post.getCategory())
+                            .idea(post.getIdea())
+                            .postSkillsets(skills)
+                            .userEmail(writer.getEmail())
+                            .userImg(writer.getProfileImage())
+                            .userNickname(writer.getNickname())
+                            .createdAt(post.getCreatedAt())
+                            .build()
+            );
+        }
+        return getMyPostsResponses;
     }
 }
