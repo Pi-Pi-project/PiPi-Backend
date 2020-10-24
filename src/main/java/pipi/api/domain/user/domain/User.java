@@ -42,6 +42,12 @@ public class User {
     @OneToMany(mappedBy = "userEmail", cascade = CascadeType.ALL)
     private List<Post> posts;
 
+    @OneToMany(mappedBy = "userEmail", cascade = CascadeType.ALL)
+    private List<UserViewLog> userViewLogs;
+
+    @OneToMany(mappedBy = "userEmail", cascade = CascadeType.ALL)
+    private List<UserSearchLog> userSearchLogs;
+
     public User setProfile(String profileImage, String giturl, String introduce) {
         this.profileImage = profileImage;
         this.giturl = giturl;
