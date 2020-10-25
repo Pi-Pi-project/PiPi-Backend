@@ -6,12 +6,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import pipi.api.domain.post.domain.Apply;
 import pipi.api.domain.post.domain.Post;
 import pipi.api.domain.post.domain.PostSkillset;
+import pipi.api.domain.post.domain.repository.ApplyRepository;
 import pipi.api.domain.post.domain.repository.PostRepository;
 import pipi.api.domain.post.domain.repository.PostSkillsetRepository;
 import pipi.api.domain.post.dto.GetDetailPostResponse;
 import pipi.api.domain.post.dto.GetPostsResponse;
+import pipi.api.domain.post.dto.PostApplyRequest;
 import pipi.api.domain.post.dto.PostWriteRequest;
 import pipi.api.domain.post.exception.PostNotFoundException;
 import pipi.api.domain.user.domain.User;
@@ -35,6 +38,7 @@ public class PostServiceImpl implements PostService {
     private final PostSkillsetRepository postSkillsetRepository;
     private final UserRepository userRepository;
     private final UserViewLogRepository userViewLogRepository;
+    private final ApplyRepository applyRepository;
     private final AuthenticationFacade authenticationFacade;
 
     @Value("${image.upload.dir}")
@@ -157,5 +161,17 @@ public class PostServiceImpl implements PostService {
                 .userNickname(writer.getNickname())
                 .createdAt(post.getCreatedAt())
                 .build();
+    }
+
+    @Override
+    public void applyOne(PostApplyRequest postApplyRequest) {
+        postRepository.findById(postApplyRequest.getId())
+                .orElseThrow(PostNotFoundException::new);
+        applyRepository.save(
+                Apply.builder()
+                        .postId(postApplyRequest.getId())
+                        .userEmail(authenticationFacade.getUserEmail())
+                        .build()
+        );
     }
 }
