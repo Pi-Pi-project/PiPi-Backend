@@ -193,8 +193,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void acceptApply(Long id, String email) {
-        Apply apply = applyRepository.findByPostIdAndUserEmail(id, email);
+    public void acceptApply(AcceptApplyRequest acceptApplyRequest) {
+        Apply apply = applyRepository.findByPostIdAndUserEmail(acceptApplyRequest.getId(), acceptApplyRequest.getUserEmail());
         applyRepository.save(apply.setApply(Accept.ACCEPTED));
     }
 }

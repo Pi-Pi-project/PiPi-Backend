@@ -1,7 +1,6 @@
 package pipi.api.domain.post.service;
 
 import org.springframework.data.domain.Pageable;
-import pipi.api.domain.post.domain.Apply;
 import pipi.api.domain.post.dto.*;
 
 import java.util.List;
@@ -13,5 +12,5 @@ public interface PostService {
     GetDetailPostResponse getOne(Long id);
     void applyOne(PostApplyRequest postApplyRequest);
     List<GetApplyListResponse> getApplyList(Long id);
-    void acceptApply(Long id, String email);
+    void acceptApply(AcceptApplyRequest acceptApplyRequest);
 }
