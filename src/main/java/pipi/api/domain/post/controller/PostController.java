@@ -6,6 +6,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import pipi.api.domain.post.dto.GetDetailPostResponse;
 import pipi.api.domain.post.dto.GetPostsResponse;
+import pipi.api.domain.post.dto.PostApplyRequest;
 import pipi.api.domain.post.dto.PostWriteRequest;
 import pipi.api.domain.post.service.PostService;
 
@@ -36,5 +37,10 @@ public class PostController {
     @GetMapping("/{id}")
     public GetDetailPostResponse getOne(@PathVariable Long id) {
         return postService.getOne(id);
+    }
+
+    @PostMapping("/apply")
+    public void applyOne(@RequestBody PostApplyRequest postApplyRequest) {
+        postService.applyOne(postApplyRequest);
     }
 }
