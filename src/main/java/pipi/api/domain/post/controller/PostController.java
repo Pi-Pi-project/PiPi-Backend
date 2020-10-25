@@ -4,11 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
-import pipi.api.domain.post.domain.Apply;
-import pipi.api.domain.post.dto.GetDetailPostResponse;
-import pipi.api.domain.post.dto.GetPostsResponse;
-import pipi.api.domain.post.dto.PostApplyRequest;
-import pipi.api.domain.post.dto.PostWriteRequest;
+import pipi.api.domain.post.dto.*;
 import pipi.api.domain.post.service.PostService;
 
 import javax.validation.Valid;
@@ -46,7 +42,7 @@ public class PostController {
     }
 
     @GetMapping("/apply/{id}")
-    public List<Apply> getApplyList(@PathVariable Long id) {
+    public List<GetApplyListResponse> getApplyList(@PathVariable Long id) {
         return postService.getApplyList(id);
     }
 }
