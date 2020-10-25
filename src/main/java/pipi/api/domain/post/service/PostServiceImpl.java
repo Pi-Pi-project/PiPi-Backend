@@ -12,10 +12,7 @@ import pipi.api.domain.post.domain.PostSkillset;
 import pipi.api.domain.post.domain.repository.ApplyRepository;
 import pipi.api.domain.post.domain.repository.PostRepository;
 import pipi.api.domain.post.domain.repository.PostSkillsetRepository;
-import pipi.api.domain.post.dto.GetDetailPostResponse;
-import pipi.api.domain.post.dto.GetPostsResponse;
-import pipi.api.domain.post.dto.PostApplyRequest;
-import pipi.api.domain.post.dto.PostWriteRequest;
+import pipi.api.domain.post.dto.*;
 import pipi.api.domain.post.exception.PostNotFoundException;
 import pipi.api.domain.user.domain.User;
 import pipi.api.domain.user.domain.UserViewLog;
@@ -176,7 +173,20 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Apply> getApplyList(Long id) {
-        return applyRepository.findAllByPostId(id);
+    public List<GetApplyListResponse> getApplyList(Long id) {
+        List <GetApplyListResponse> getApplyLIstResponses = new ArrayList<>();
+        List<Apply> applies = applyRepository.findAllByPostId(id);
+        for (Apply apply : applies) {
+            User applier = userRepository.findByEmail(apply.getUserEmail())
+                    .orElseThrow(UserNotFoundException::new);
+            getApplyLIstResponses.add(
+                GetApplyListResponse.builder()
+                        .userEmail(applier.getEmail())
+                        .userImg(applier.getProfileImage())
+                        .userNickname(applier.getNickname())
+                        .build()
+            );
+        }
+        return getApplyLIstResponses;
     }
 }
