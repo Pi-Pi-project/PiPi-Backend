@@ -174,4 +174,9 @@ public class PostServiceImpl implements PostService {
                         .build()
         );
     }
+
+    @Override
+    public List<Apply> getApplyList(Long id) {
+        return applyRepository.findAllByPostId(id);
+    }
 }
