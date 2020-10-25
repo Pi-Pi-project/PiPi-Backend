@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface ApplyRepository extends JpaRepository<Apply, ApplyPK> {
     List<Apply> findAllByPostId(Long id);
+    Apply findByPostIdAndUserEmail(Long id, String userEmail);
 }
