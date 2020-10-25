@@ -37,12 +37,17 @@ public class PostController {
     }
 
     @PostMapping("/apply")
-    public void applyOne(@RequestBody PostApplyRequest postApplyRequest) {
+    public void applyOne(@RequestBody @Valid PostApplyRequest postApplyRequest) {
         postService.applyOne(postApplyRequest);
     }
 
     @GetMapping("/apply/{id}")
     public List<GetApplyListResponse> getApplyList(@PathVariable Long id) {
         return postService.getApplyList(id);
+    }
+
+    @PutMapping("/apply")
+    public void acceptApply(@RequestBody @Valid AcceptApplyRequest acceptApplyRequest) {
+        postService.acceptApply(acceptApplyRequest);
     }
 }
