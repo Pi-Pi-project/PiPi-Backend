@@ -13,4 +13,5 @@ public interface PostService {
     GetDetailPostResponse getOne(Long id);
     void applyOne(PostApplyRequest postApplyRequest);
     List<GetApplyListResponse> getApplyList(Long id);
+    void acceptApply(Long id, String email);
 }

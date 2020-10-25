@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import pipi.api.domain.post.domain.Apply;
 import pipi.api.domain.post.domain.Post;
 import pipi.api.domain.post.domain.PostSkillset;
+import pipi.api.domain.post.domain.enums.Accept;
 import pipi.api.domain.post.domain.repository.ApplyRepository;
 import pipi.api.domain.post.domain.repository.PostRepository;
 import pipi.api.domain.post.domain.repository.PostSkillsetRepository;
@@ -168,6 +169,7 @@ public class PostServiceImpl implements PostService {
                 Apply.builder()
                         .postId(postApplyRequest.getId())
                         .userEmail(authenticationFacade.getUserEmail())
+                        .accept(Accept.WAITING)
                         .build()
         );
     }
@@ -188,5 +190,11 @@ public class PostServiceImpl implements PostService {
             );
         }
         return getApplyLIstResponses;
+    }
+
+    @Override
+    public void acceptApply(Long id, String email) {
+        Apply apply = applyRepository.findByPostIdAndUserEmail(id, email);
+        applyRepository.save(apply.setApply(Accept.ACCEPTED));
     }
 }
