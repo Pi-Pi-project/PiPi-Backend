@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Entity
@@ -39,4 +40,7 @@ public class Post {
 
     @Column
     private String createdAt;
+
+    @OneToMany(mappedBy = "postId", cascade = CascadeType.ALL)
+    private List<Apply> applies;
 }
