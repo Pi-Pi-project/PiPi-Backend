@@ -14,4 +14,5 @@ public interface PostService {
     List<GetApplyListResponse> getApplyList(Long id);
     void acceptApply(AcceptApplyRequest acceptApplyRequest);
     void denyApply(AcceptApplyRequest acceptApplyRequest);
+    List<GetPostsResponse> getSearchPosts(String category, Pageable pageable);
 }

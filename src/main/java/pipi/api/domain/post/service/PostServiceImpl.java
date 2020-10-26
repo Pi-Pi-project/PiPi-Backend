@@ -203,4 +203,30 @@ public class PostServiceImpl implements PostService {
         Apply apply = applyRepository.findByPostIdAndUserEmail(acceptApplyRequest.getId(), acceptApplyRequest.getUserEmail());
         applyRepository.save(apply.setApply(Accept.DENIED));
     }
+
+    @Override
+    public List<GetPostsResponse> getSearchPosts(String category, Pageable pageable) {
+        Page<Post> posts = postRepository.findAllByCategory(category, pageable);
+        List<GetPostsResponse> getPostsResponses = new ArrayList<>();
+        for (Post post : posts) {
+            User writer = userRepository.findByEmail(post.getUserEmail())
+                    .orElseThrow(UserNotFoundException::new);
+            List<PostSkillset> skills = postSkillsetRepository.findAllByPostId(post.getId());
+            getPostsResponses.add(
+                    GetPostsResponse.builder()
+                            .id(post.getId())
+                            .title(post.getTitle())
+                            .img(post.getImg())
+                            .category(post.getCategory())
+                            .idea(post.getIdea())
+                            .postSkillsets(skills)
+                            .userEmail(writer.getEmail())
+                            .userImg(writer.getProfileImage())
+                            .userNickname(writer.getNickname())
+                            .createdAt(post.getCreatedAt())
+                            .build()
+            );
+        }
+        return getPostsResponses;
+    }
 }
