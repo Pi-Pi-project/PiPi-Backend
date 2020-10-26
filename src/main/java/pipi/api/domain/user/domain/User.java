@@ -1,6 +1,7 @@
 package pipi.api.domain.user.domain;
 
 import lombok.*;
+import pipi.api.domain.post.domain.Apply;
 import pipi.api.domain.post.domain.Post;
 import pipi.api.domain.user.domain.enums.Admin;
 
@@ -41,6 +42,15 @@ public class User {
 
     @OneToMany(mappedBy = "userEmail", cascade = CascadeType.ALL)
     private List<Post> posts;
+
+    @OneToMany(mappedBy = "userEmail", cascade = CascadeType.ALL)
+    private List<UserViewLog> userViewLogs;
+
+    @OneToMany(mappedBy = "userEmail", cascade = CascadeType.ALL)
+    private List<UserSearchLog> userSearchLogs;
+
+    @OneToMany(mappedBy = "userEmail", cascade = CascadeType.ALL)
+    private List<Apply> applies;
 
     public User setProfile(String profileImage, String giturl, String introduce) {
         this.profileImage = profileImage;

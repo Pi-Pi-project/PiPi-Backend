@@ -3,7 +3,7 @@ package pipi.api.domain.post.domain;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Entity
@@ -38,5 +38,8 @@ public class Post {
     private Integer max;
 
     @Column
-    private LocalDateTime createdAt;
+    private String createdAt;
+
+    @OneToMany(mappedBy = "postId", cascade = CascadeType.ALL)
+    private List<Apply> applies;
 }
