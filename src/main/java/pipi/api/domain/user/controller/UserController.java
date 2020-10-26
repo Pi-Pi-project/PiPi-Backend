@@ -33,6 +33,12 @@ public class UserController {
         userService.setProfile(setProfileRequest);
     }
 
+    @PostMapping("/password/email")
+    public void changePasswordSendEmail(@RequestBody @Valid EmailSendRequest emailSendRequest) {
+        userService.passwordChangeSendEmail(emailSendRequest);
+    }
+
+
     @PutMapping("/password")
     public void changePassword(@RequestBody @Valid PasswordChangeRequest passwordChangeRequest) {
         userService.changePassword(passwordChangeRequest);
