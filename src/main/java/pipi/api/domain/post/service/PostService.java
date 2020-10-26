@@ -13,4 +13,5 @@ public interface PostService {
     void applyOne(PostApplyRequest postApplyRequest);
     List<GetApplyListResponse> getApplyList(Long id);
     void acceptApply(AcceptApplyRequest acceptApplyRequest);
+    void denyApply(AcceptApplyRequest acceptApplyRequest);
 }
