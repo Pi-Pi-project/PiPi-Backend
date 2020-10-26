@@ -66,6 +66,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void passwordChangeSendEmail(EmailSendRequest emailSendRequest) {
+        userRepository.findByEmail(emailSendRequest.getEmail())
+                .orElseThrow(UserNotFoundException::new);
+        String code = randomCode();
+        emailService.sendEmail(emailSendRequest.getEmail(), code);
+        emailVerificationRepository.save(
+                EmailVerification.builder()
+                        .email(emailSendRequest.getEmail())
+                        .code(code)
+                        .status(EmailVerificationStatus.UNVERIFIED)
+                        .build()
+        );
+    }
+
+    @Override
     public void checkAuthCode(EmailCheckRequest emailCheckRequest) {
         String email = emailCheckRequest.getEmail();
         String code = emailCheckRequest.getCode();
