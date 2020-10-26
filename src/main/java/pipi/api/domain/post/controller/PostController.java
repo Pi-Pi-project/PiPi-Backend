@@ -46,8 +46,13 @@ public class PostController {
         return postService.getApplyList(id);
     }
 
-    @PutMapping("/apply")
+    @PutMapping("/apply/accept")
     public void acceptApply(@RequestBody @Valid AcceptApplyRequest acceptApplyRequest) {
         postService.acceptApply(acceptApplyRequest);
+    }
+
+    @PutMapping("/apply/deny")
+    public void denyApply(@RequestBody @Valid AcceptApplyRequest acceptApplyRequest) {
+        postService.denyApply(acceptApplyRequest);
     }
 }
