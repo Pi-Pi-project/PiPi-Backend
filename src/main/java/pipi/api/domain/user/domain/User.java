@@ -3,6 +3,7 @@ package pipi.api.domain.user.domain;
 import lombok.*;
 import pipi.api.domain.post.domain.Apply;
 import pipi.api.domain.post.domain.Post;
+import pipi.api.domain.profile.domain.Portfolio;
 import pipi.api.domain.user.domain.enums.Admin;
 
 import javax.persistence.*;
@@ -51,6 +52,9 @@ public class User {
 
     @OneToMany(mappedBy = "userEmail", cascade = CascadeType.ALL)
     private List<Apply> applies;
+
+    @OneToMany(mappedBy = "userEmail", cascade = CascadeType.ALL)
+    private List<Portfolio> portfolios;
 
     public User setProfile(String profileImage, String giturl, String introduce) {
         this.profileImage = profileImage;
