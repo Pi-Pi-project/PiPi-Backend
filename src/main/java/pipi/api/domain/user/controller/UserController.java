@@ -23,7 +23,7 @@ public class UserController {
         userService.checkAuthCode(emailCheckRequest);
     }
 
-    @PostMapping("/register")
+    @PostMapping
     public TokenResponse register(@RequestBody @Valid UserRegisterRequest userRegisterRequest) {
         return userService.register(userRegisterRequest);
     }
