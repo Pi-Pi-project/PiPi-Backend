@@ -54,6 +54,7 @@ public class UserServiceImpl implements UserService {
     public void sendEmail(EmailSendRequest emailSendRequest) {
         String email = emailSendRequest.getEmail();
         isExists(email);
+        System.out.println(email);
         String code = randomCode();
         emailService.sendEmail(email, code);
         emailVerificationRepository.save(
@@ -104,6 +105,7 @@ public class UserServiceImpl implements UserService {
                         .email(email)
                         .password(password)
                         .nickname(userRegisterRequest.getNickname())
+                        .profileImage("user.jpg")
                         .admin(Admin.USER)
                         .build()
         );
@@ -128,10 +130,8 @@ public class UserServiceImpl implements UserService {
         if (setProfileRequest.getProfileImg() != null) {
             imageName = UUID.randomUUID().toString();
             setProfileRequest.getProfileImg().transferTo(new File(imageDirPath, imageName));
-        } else {
-            imageName = "user.jpg";
+            userRepository.save(user.setProfile(imageName, setProfileRequest.getGiturl(), setProfileRequest.getIntroduce()));
         }
-        userRepository.save(user.setProfile(imageName, setProfileRequest.getGiturl(), setProfileRequest.getIntroduce()));
         if (setProfileRequest.getSkills() != null) {
             for (String skill : setProfileRequest.getSkills()) {
                 userSkillsetRepository.save(
