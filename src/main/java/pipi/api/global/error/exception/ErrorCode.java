@@ -14,6 +14,7 @@ public enum ErrorCode {
     EXPIRED_TOKEN(403, "Expired Token"),
     USER_NOT_FOUND(404, "User Not Found"),
     POST_NOT_FOUND(404, "Post Not Found"),
+    IMAGE_NOT_FOUND(404, "Image Not Found"),
     USER_ALREADY_EXISTS(409, "User is Already Exists");
 
     private final int status;
