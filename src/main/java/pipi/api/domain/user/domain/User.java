@@ -38,6 +38,14 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Admin admin;
 
+    @OneToOne
+    @JoinColumn
+    private Portfolio firstPortfolio;
+
+    @OneToOne
+    @JoinColumn
+    private Portfolio secondPortfolio;
+
     @OneToMany(mappedBy = "userEmail", cascade = CascadeType.ALL)
     private List<UserSkillset> skillsets;
 
