@@ -2,11 +2,15 @@ package pipi.api.domain.profile.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pipi.api.domain.profile.domain.Portfolio;
+import pipi.api.domain.profile.domain.repository.PortfolioRepository;
+import pipi.api.domain.profile.dto.AddPortfolioRequest;
 import pipi.api.domain.profile.dto.ShowProfileResponse;
 import pipi.api.domain.user.domain.User;
 import pipi.api.domain.user.domain.UserSkillset;
 import pipi.api.domain.user.domain.repository.UserRepository;
 import pipi.api.domain.user.domain.repository.UserSkillsetRepository;
+import pipi.api.global.config.AuthenticationFacade;
 import pipi.api.global.error.exception.UserNotFoundException;
 
 import java.util.List;
@@ -16,6 +20,8 @@ import java.util.List;
 public class ProfileServiceImpl implements ProfileService {
     private final UserRepository userRepository;
     private final UserSkillsetRepository userSkillsetRepository;
+    private final PortfolioRepository portfolioRepository;
+    private final AuthenticationFacade authenticationFacade;
 
     @Override
     public ShowProfileResponse getProfile(String userEmail) {
@@ -29,5 +35,22 @@ public class ProfileServiceImpl implements ProfileService {
                 .giturl(user.getGiturl())
                 .introduce(user.getIntroduce())
                 .build();
+    }
+
+    @Override
+    public void addPortfolio(AddPortfolioRequest addPortfolioRequest) {
+        portfolioRepository.save(
+                Portfolio.builder()
+                        .title(addPortfolioRequest.getTitle())
+                        .giturl(addPortfolioRequest.getGiturl())
+                        .introduce(addPortfolioRequest.getIntroduce())
+                        .userEmail(authenticationFacade.getUserEmail())
+                        .build()
+        );
+    }
+
+    @Override
+    public List<Portfolio> getPortfolios() {
+        return portfolioRepository.findAllByUserEmail(authenticationFacade.getUserEmail());
     }
 }
