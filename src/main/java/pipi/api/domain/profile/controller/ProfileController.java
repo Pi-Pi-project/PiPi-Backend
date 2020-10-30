@@ -22,7 +22,7 @@ public class ProfileController {
     }
 
     @GetMapping("/portfolio")
-    public List<Portfolio> getPortfoli  os() {
+    public List<Portfolio> getPortfolios() {
         return profileService.getPortfolios();
     }
 
