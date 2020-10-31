@@ -16,8 +16,10 @@ import pipi.api.domain.post.domain.repository.PostSkillsetRepository;
 import pipi.api.domain.post.dto.*;
 import pipi.api.domain.post.exception.PostNotFoundException;
 import pipi.api.domain.user.domain.User;
+import pipi.api.domain.user.domain.UserSearchLog;
 import pipi.api.domain.user.domain.UserViewLog;
 import pipi.api.domain.user.domain.repository.UserRepository;
+import pipi.api.domain.user.domain.repository.UserSearchLogRepository;
 import pipi.api.domain.user.domain.repository.UserViewLogRepository;
 import pipi.api.global.config.AuthenticationFacade;
 import pipi.api.global.error.exception.UserNotFoundException;
@@ -38,6 +40,7 @@ public class PostServiceImpl implements PostService {
     private final UserViewLogRepository userViewLogRepository;
     private final ApplyRepository applyRepository;
     private final AuthenticationFacade authenticationFacade;
+    private final UserSearchLogRepository userSearchLogRepository;
 
     @Value("${image.upload.dir}")
     private String imageDirPath;
@@ -227,6 +230,12 @@ public class PostServiceImpl implements PostService {
                             .build()
             );
         }
+        userSearchLogRepository.save(
+                UserSearchLog.builder()
+                        .log(category)
+                        .userEmail(authenticationFacade.getUserEmail())
+                        .build()
+        );
         return getPostsResponses;
     }
 }
