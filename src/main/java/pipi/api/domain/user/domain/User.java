@@ -77,4 +77,16 @@ public class User {
 
         return this;
     }
+
+    public User setFirstPortfolio(Portfolio first) {
+        this.firstPortfolio = first;
+
+        return this;
+    }
+
+    public User setSecondPortfolio(Portfolio second) {
+        this.secondPortfolio = second;
+
+        return this;
+    }
 }
