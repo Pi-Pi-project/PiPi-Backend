@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import pipi.api.domain.profile.domain.Portfolio;
 import pipi.api.domain.profile.dto.AddPortfolioRequest;
+import pipi.api.domain.profile.dto.SelectPortfolioRequest;
 import pipi.api.domain.profile.dto.ShowProfileResponse;
 import pipi.api.domain.profile.service.ProfileService;
 
@@ -26,8 +27,13 @@ public class ProfileController {
         return profileService.getPortfolios();
     }
 
-    @PostMapping("/portforlio")
+    @PostMapping("/portfolio")
     public void addPortfolio(@RequestBody @Valid AddPortfolioRequest addPortfolioRequest) {
         profileService.addPortfolio(addPortfolioRequest);
+    }
+
+    @PutMapping("/portfolio")
+    public void selectPortfolio(@RequestBody @Valid SelectPortfolioRequest selectPortfolioRequest) {
+        profileService.selectPortfolio(selectPortfolioRequest);
     }
 }
