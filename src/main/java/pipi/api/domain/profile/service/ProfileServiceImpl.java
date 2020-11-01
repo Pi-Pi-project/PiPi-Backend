@@ -5,7 +5,9 @@ import org.springframework.stereotype.Service;
 import pipi.api.domain.profile.domain.Portfolio;
 import pipi.api.domain.profile.domain.repository.PortfolioRepository;
 import pipi.api.domain.profile.dto.AddPortfolioRequest;
+import pipi.api.domain.profile.dto.SelectPortfolioRequest;
 import pipi.api.domain.profile.dto.ShowProfileResponse;
+import pipi.api.domain.profile.exception.PortfolioNotFoundException;
 import pipi.api.domain.user.domain.User;
 import pipi.api.domain.user.domain.UserSkillset;
 import pipi.api.domain.user.domain.repository.UserRepository;
@@ -34,6 +36,8 @@ public class ProfileServiceImpl implements ProfileService {
                 .skills(skills)
                 .giturl(user.getGiturl())
                 .introduce(user.getIntroduce())
+                .firstPortfolio(user.getFirstPortfolio())
+                .secondPortfolio(user.getSecondPortfolio())
                 .build();
     }
 
@@ -52,5 +56,21 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public List<Portfolio> getPortfolios() {
         return portfolioRepository.findAllByUserEmail(authenticationFacade.getUserEmail());
+    }
+
+    @Override
+    public void selectPortfolio(SelectPortfolioRequest selectPortfolioRequest) {
+        User user = userRepository.findByEmail(authenticationFacade.getUserEmail())
+                .orElseThrow(UserNotFoundException::new);
+        if (selectPortfolioRequest.getFirst() != null) {
+            Portfolio first = portfolioRepository.findById(selectPortfolioRequest.getFirst())
+                    .orElseThrow(PortfolioNotFoundException::new);
+            userRepository.save(user.setFirstPortfolio(first));
+        }
+        if (selectPortfolioRequest.getSecond() != null) {
+            Portfolio second = portfolioRepository.findById(selectPortfolioRequest.getSecond())
+                    .orElseThrow(PortfolioNotFoundException::new);
+            userRepository.save(user.setSecondPortfolio(second));
+        }
     }
 }
