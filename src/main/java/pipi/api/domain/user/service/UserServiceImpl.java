@@ -54,7 +54,6 @@ public class UserServiceImpl implements UserService {
     public void sendEmail(EmailSendRequest emailSendRequest) {
         String email = emailSendRequest.getEmail();
         isExists(email);
-        System.out.println(email);
         String code = randomCode();
         emailService.sendEmail(email, code);
         emailVerificationRepository.save(
