@@ -23,13 +23,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .formLogin().disable()
                 .authorizeRequests()
-                .antMatchers("/user").permitAll()
-                .antMatchers("/user/email/**").permitAll()
-                .antMatchers("/image/**").permitAll()
-                .antMatchers("/auth/**").permitAll()
-                .anyRequest().authenticated()
+                    .antMatchers("/user").permitAll()
+                    .antMatchers("/user/email/**").permitAll()
+                    .antMatchers("/image/**").permitAll()
+                    .antMatchers("/auth/**").permitAll()
+                    .anyRequest().authenticated()
                 .and()
-                .apply(new JwtConfigurer(jwtTokenProvider));
+                    .apply(new JwtConfigurer(jwtTokenProvider));
     }
 
     @Bean
