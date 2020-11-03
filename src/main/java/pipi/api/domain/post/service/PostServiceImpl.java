@@ -136,6 +136,13 @@ public class PostServiceImpl implements PostService {
         return getMyPostsResponses;
     }
 
+    private boolean checkApplied(Long postId, String email) {
+        if (applyRepository.findByPostIdAndUserEmail(postId, email) != null) {
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public GetDetailPostResponse getOne(Long id) {
         Post post = postRepository.findById(id)
@@ -161,6 +168,7 @@ public class PostServiceImpl implements PostService {
                 .userImg(writer.getProfileImage())
                 .userNickname(writer.getNickname())
                 .createdAt(post.getCreatedAt())
+                .isApplied(checkApplied(post.getId(), authenticationFacade.getUserEmail()))
                 .build();
     }
 
