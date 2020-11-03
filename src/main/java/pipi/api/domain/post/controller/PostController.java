@@ -41,9 +41,19 @@ public class PostController {
         return postService.getOne(id);
     }
 
+    @GetMapping("/apply")
+    public List<GetPostsResponse> getAppliedPosts(@PageableDefault(size = 10) Pageable page) {
+        return postService.getAppliedPosts(page);
+    }
+
     @PostMapping("/apply")
     public void applyOne(@RequestBody @Valid PostApplyRequest postApplyRequest) {
         postService.applyOne(postApplyRequest);
+    }
+
+    @DeleteMapping("/apply")
+    public void cancleApply(@RequestBody @Valid PostApplyRequest postApplyRequest) {
+        postService.cancleApply(postApplyRequest);
     }
 
     @GetMapping("/apply/{id}")
