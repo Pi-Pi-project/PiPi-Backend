@@ -20,4 +20,5 @@ public class GetDetailPostResponse {
         private final String userImg;
         private final String userNickname;
         private final String createdAt;
+        private final boolean isApplied;
 }
