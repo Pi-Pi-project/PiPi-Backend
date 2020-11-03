@@ -24,6 +24,7 @@ import pipi.api.domain.user.domain.repository.UserViewLogRepository;
 import pipi.api.global.config.AuthenticationFacade;
 import pipi.api.global.error.exception.UserNotFoundException;
 
+import javax.transaction.Transactional;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -186,6 +187,14 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Transactional
+    public void cancleApply(PostApplyRequest postApplyRequest) {
+        postRepository.findById(postApplyRequest.getId())
+                .orElseThrow(PostNotFoundException::new);
+        applyRepository.deleteByPostIdAndUserEmail(postApplyRequest.getId(), authenticationFacade.getUserEmail());
+    }
+
+    @Override
     public List<GetApplyListResponse> getApplyList(Long id) {
         List <GetApplyListResponse> getApplyLIstResponses = new ArrayList<>();
         List<Apply> applies = applyRepository.findAllByPostId(id);
@@ -244,6 +253,34 @@ public class PostServiceImpl implements PostService {
                         .userEmail(authenticationFacade.getUserEmail())
                         .build()
         );
+        return getPostsResponses;
+    }
+
+    @Override
+    public List<GetPostsResponse> getAppliedPosts(Pageable pageable) {
+        Page<Apply> applies = applyRepository.findAllByUserEmail(pageable, authenticationFacade.getUserEmail());
+        List<GetPostsResponse> getPostsResponses = new ArrayList<>();
+        for (Apply apply : applies) {
+            Post post = postRepository.findById(apply.getPostId())
+                    .orElseThrow(PostNotFoundException::new);
+            User writer = userRepository.findByEmail(authenticationFacade.getUserEmail())
+                    .orElseThrow(UserNotFoundException::new);
+            List<PostSkillset> skills = postSkillsetRepository.findAllByPostId(post.getId());
+            getPostsResponses.add(
+                    GetPostsResponse.builder()
+                            .id(post.getId())
+                            .title(post.getTitle())
+                            .img(post.getImg())
+                            .category(post.getCategory())
+                            .idea(post.getIdea())
+                            .postSkillsets(skills)
+                            .userEmail(writer.getEmail())
+                            .userImg(writer.getProfileImage())
+                            .userNickname(writer.getNickname())
+                            .createdAt(post.getCreatedAt())
+                            .build()
+            );
+        }
         return getPostsResponses;
     }
 }

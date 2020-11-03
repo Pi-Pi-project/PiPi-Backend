@@ -11,8 +11,10 @@ public interface PostService {
     List<GetPostsResponse> getMyPosts(Pageable pageable);
     GetDetailPostResponse getOne(Long id);
     void applyOne(PostApplyRequest postApplyRequest);
+    void cancleApply(PostApplyRequest postApplyRequest);
     List<GetApplyListResponse> getApplyList(Long id);
     void acceptApply(AcceptApplyRequest acceptApplyRequest);
     void denyApply(AcceptApplyRequest acceptApplyRequest);
     List<GetPostsResponse> getSearchPosts(String category, Pageable pageable);
+    List<GetPostsResponse> getAppliedPosts(Pageable pageable);
 }
