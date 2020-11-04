@@ -18,8 +18,8 @@ public class ProfileController {
     private final ProfileService profileService;
 
     @GetMapping
-    public ShowProfileResponse getProfile(@RequestParam(value = "email", required = true) String userEmail) {
-        return profileService.getProfile(userEmail);
+    public ShowProfileResponse getProfile(@RequestParam String email) {
+        return profileService.getProfile(email);
     }
 
     @GetMapping("/portfolio")
