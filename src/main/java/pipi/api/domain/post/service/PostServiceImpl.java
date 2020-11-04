@@ -155,6 +155,7 @@ public class PostServiceImpl implements PostService {
                 UserViewLog.builder()
                         .userEmail(authenticationFacade.getUserEmail())
                         .log(post.getCategory())
+                        .postId(post.getId())
                         .build()
         );
         return GetDetailPostResponse.builder()
@@ -168,6 +169,7 @@ public class PostServiceImpl implements PostService {
                 .userEmail(writer.getEmail())
                 .userImg(writer.getProfileImage())
                 .userNickname(writer.getNickname())
+                .max(post.getMax())
                 .createdAt(post.getCreatedAt())
                 .isApplied(checkApplied(post.getId(), authenticationFacade.getUserEmail()))
                 .build();
