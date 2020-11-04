@@ -206,6 +206,7 @@ public class PostServiceImpl implements PostService {
                         .userEmail(applier.getEmail())
                         .userImg(applier.getProfileImage())
                         .userNickname(applier.getNickname())
+                        .status(apply.getAccept())
                         .build()
             );
         }
