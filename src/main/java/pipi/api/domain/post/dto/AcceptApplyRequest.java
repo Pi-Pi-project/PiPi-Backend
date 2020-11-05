@@ -4,6 +4,6 @@ import lombok.Getter;
 
 @Getter
 public class AcceptApplyRequest {
-    private Long id;
+    private Long postId;
     private String userEmail;
 }
