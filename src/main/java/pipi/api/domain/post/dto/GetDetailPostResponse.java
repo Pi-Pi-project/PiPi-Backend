@@ -21,5 +21,6 @@ public class GetDetailPostResponse {
         private final String userNickname;
         private final Integer max;
         private final String createdAt;
+        private final boolean isMine;
         private final boolean isApplied;
 }
