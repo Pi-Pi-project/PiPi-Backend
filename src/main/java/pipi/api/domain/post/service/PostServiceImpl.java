@@ -14,6 +14,7 @@ import pipi.api.domain.post.domain.repository.ApplyRepository;
 import pipi.api.domain.post.domain.repository.PostRepository;
 import pipi.api.domain.post.domain.repository.PostSkillsetRepository;
 import pipi.api.domain.post.dto.*;
+import pipi.api.domain.post.exception.MyProjectException;
 import pipi.api.domain.post.exception.PostNotFoundException;
 import pipi.api.domain.user.domain.User;
 import pipi.api.domain.user.domain.UserSearchLog;
@@ -138,9 +139,14 @@ public class PostServiceImpl implements PostService {
     }
 
     private boolean checkApplied(Long postId, String email) {
-        if (applyRepository.findByPostIdAndUserEmail(postId, email) != null) {
+        if (applyRepository.findByPostIdAndUserEmail(postId, email) != null)
             return true;
-        }
+        return false;
+    }
+
+    private boolean checkMine(String postEmail, String email) {
+        if (postEmail.equals(email))
+            return true;
         return false;
     }
 
@@ -172,13 +178,16 @@ public class PostServiceImpl implements PostService {
                 .max(post.getMax())
                 .createdAt(post.getCreatedAt())
                 .isApplied(checkApplied(post.getId(), authenticationFacade.getUserEmail()))
+                .isMine(checkMine(post.getUserEmail(), authenticationFacade.getUserEmail()))
                 .build();
     }
 
     @Override
     public void applyOne(PostApplyRequest postApplyRequest) {
-        postRepository.findById(postApplyRequest.getId())
+        Post post = postRepository.findById(postApplyRequest.getId())
                 .orElseThrow(PostNotFoundException::new);
+        if (checkMine(post.getUserEmail(), authenticationFacade.getUserEmail()))
+            throw new MyProjectException();
         applyRepository.save(
                 Apply.builder()
                         .postId(postApplyRequest.getId())
