@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import pipi.api.domain.post.domain.Apply;
 import pipi.api.domain.post.domain.ApplyPK;
+import pipi.api.domain.post.domain.enums.Accept;
 
 import java.util.List;
 
@@ -15,4 +16,5 @@ public interface ApplyRepository extends JpaRepository<Apply, ApplyPK> {
     Apply findByPostIdAndUserEmail(Long id, String userEmail);
     void deleteByPostIdAndUserEmail(Long id, String userEmail);
     Page<Apply> findAllByUserEmail(Pageable pageable, String userEmail);
+    List<Apply> findAllByPostIdAndAccept(Long id, Accept accept);
 }
