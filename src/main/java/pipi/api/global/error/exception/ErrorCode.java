@@ -16,6 +16,7 @@ public enum ErrorCode {
     POST_NOT_FOUND(404, "Post Not Found"),
     IMAGE_NOT_FOUND(404, "Image Not Found"),
     PORTFOLIO_NOT_FOUND(404, "Portfolio Not Found"),
+    TOO_MANY_MEMBER(409, "Too Many Member"),
     USER_ALREADY_EXISTS(409, "User is Already Exists");
 
     private final int status;

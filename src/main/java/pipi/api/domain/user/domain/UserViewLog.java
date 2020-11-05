@@ -23,4 +23,7 @@ public class UserViewLog {
 
     @Column(length = 30)
     private String log;
+
+    @Column
+    private Long postId;
 }

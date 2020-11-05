@@ -1,6 +1,7 @@
 package pipi.api.domain.post.domain;
 
 import lombok.*;
+import pipi.api.domain.user.domain.UserViewLog;
 
 import javax.persistence.*;
 import java.util.List;
@@ -42,4 +43,7 @@ public class Post {
 
     @OneToMany(mappedBy = "postId", cascade = CascadeType.ALL)
     private List<Apply> applies;
+
+    @OneToMany(mappedBy = "postId", cascade = CascadeType.ALL)
+    private List<UserViewLog> userViewLogs;
 }

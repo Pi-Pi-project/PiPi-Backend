@@ -19,5 +19,7 @@ public class GetDetailPostResponse {
         private final String userEmail;
         private final String userImg;
         private final String userNickname;
+        private final Integer max;
         private final String createdAt;
+        private final boolean isApplied;
 }
