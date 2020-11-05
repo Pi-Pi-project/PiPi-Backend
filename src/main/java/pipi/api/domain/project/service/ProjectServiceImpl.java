@@ -17,6 +17,7 @@ import pipi.api.domain.project.dto.CreateProjectRequest;
 import pipi.api.domain.project.exception.TooManyMemberException;
 import pipi.api.global.config.AuthenticationFacade;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -29,6 +30,7 @@ public class ProjectServiceImpl implements ProjectService {
     private final MemberRepository memberRepository;
 
     @Override
+    @Transactional
     public void createProject(CreateProjectRequest createProjectRequest) {
         Long postId = createProjectRequest.getPostId();
         List<Apply> applyList = applyRepository.findAllByPostIdAndAccept(postId, Accept.ACCEPTED);
@@ -58,5 +60,6 @@ public class ProjectServiceImpl implements ProjectService {
                             .build()
             );
         }
+        postRepository.deleteById(postId);
     }
 }
