@@ -9,4 +9,5 @@ public interface UserService {
     TokenResponse register(UserRegisterRequest userRegisterRequest);
     void setProfile(SetProfileRequest setProfileRequest);
     void changePassword(PasswordChangeRequest passwordChangeRequest);
+    UserInfoResponse showUserInfo();
 }

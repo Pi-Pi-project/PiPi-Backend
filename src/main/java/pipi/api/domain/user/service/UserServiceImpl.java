@@ -141,6 +141,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserInfoResponse showUserInfo() {
+        String email = authenticationFacade.getUserEmail();
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(UserNotFoundException::new);
+        return UserInfoResponse.builder()
+                .email(email)
+                .profileImg(user.getProfileImage())
+                .build();
+    }
+
+    @Override
     public void changePassword(PasswordChangeRequest passwordChangeRequest) {
         User user = userRepository.findByEmail(authenticationFacade.getUserEmail())
                 .orElseThrow(UserNotFoundException::new);
