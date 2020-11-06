@@ -28,7 +28,6 @@ public class PostController {
 
     @GetMapping("/search")
     public List<GetPostsResponse> getSearchPosts(@RequestParam(value = "category") String category, @PageableDefault(sort = {"createdAt"}, size = 10) Pageable page) {
-        System.out.println();
         return postService.getSearchPosts(category, page);
     }
 
