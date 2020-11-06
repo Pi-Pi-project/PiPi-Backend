@@ -14,6 +14,7 @@ import pipi.api.domain.post.domain.repository.ApplyRepository;
 import pipi.api.domain.post.domain.repository.PostRepository;
 import pipi.api.domain.post.domain.repository.PostSkillsetRepository;
 import pipi.api.domain.post.dto.*;
+import pipi.api.domain.post.exception.AlreadyAppliedPostException;
 import pipi.api.domain.post.exception.MyProjectException;
 import pipi.api.domain.post.exception.PostNotFoundException;
 import pipi.api.domain.user.domain.User;
@@ -22,6 +23,7 @@ import pipi.api.domain.user.domain.UserViewLog;
 import pipi.api.domain.user.domain.repository.UserRepository;
 import pipi.api.domain.user.domain.repository.UserSearchLogRepository;
 import pipi.api.domain.user.domain.repository.UserViewLogRepository;
+import pipi.api.global.S3Service;
 import pipi.api.global.config.AuthenticationFacade;
 import pipi.api.global.error.exception.UserNotFoundException;
 
@@ -43,9 +45,7 @@ public class PostServiceImpl implements PostService {
     private final ApplyRepository applyRepository;
     private final AuthenticationFacade authenticationFacade;
     private final UserSearchLogRepository userSearchLogRepository;
-
-    @Value("${image.upload.dir}")
-    private String imageDirPath;
+    private final S3Service s3Service;
 
     @SneakyThrows
     @Override
@@ -56,7 +56,7 @@ public class PostServiceImpl implements PostService {
         String imageName;
         if (postWriteRequest.getImg() != null) {
             imageName = UUID.randomUUID().toString();
-            postWriteRequest.getImg().transferTo(new File(imageDirPath, imageName));
+            s3Service.upload(postWriteRequest.getImg(), imageName);
         } else {
             imageName = "post.jpg";
         }
@@ -188,6 +188,8 @@ public class PostServiceImpl implements PostService {
                 .orElseThrow(PostNotFoundException::new);
         if (checkMine(post.getUserEmail(), authenticationFacade.getUserEmail()))
             throw new MyProjectException();
+        if (applyRepository.findByPostIdAndUserEmail(postApplyRequest.getId(), authenticationFacade.getUserEmail()) != null)
+            throw new AlreadyAppliedPostException();
         applyRepository.save(
                 Apply.builder()
                         .postId(postApplyRequest.getId())
@@ -275,7 +277,7 @@ public class PostServiceImpl implements PostService {
         for (Apply apply : applies) {
             Post post = postRepository.findById(apply.getPostId())
                     .orElseThrow(PostNotFoundException::new);
-            User writer = userRepository.findByEmail(authenticationFacade.getUserEmail())
+            User writer = userRepository.findByEmail(post.getUserEmail())
                     .orElseThrow(UserNotFoundException::new);
             List<PostSkillset> skills = postSkillsetRepository.findAllByPostId(post.getId());
             getPostsResponses.add(

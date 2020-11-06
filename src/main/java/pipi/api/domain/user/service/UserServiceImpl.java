@@ -17,6 +17,7 @@ import pipi.api.domain.user.dto.*;
 import pipi.api.domain.user.exception.InvalidAuthCodeException;
 import pipi.api.domain.user.exception.InvalidAuthEmailException;
 import pipi.api.domain.user.exception.UserAlreadyExistException;
+import pipi.api.global.S3Service;
 import pipi.api.global.config.AuthenticationFacade;
 import pipi.api.global.config.JwtTokenProvider;
 import pipi.api.global.error.exception.UserNotFoundException;
@@ -31,18 +32,14 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final EmailVerificationRepository emailVerificationRepository;
     private final UserSkillsetRepository userSkillsetRepository;
-
     private final EmailService emailService;
-
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationFacade authenticationFacade;
+    private final S3Service s3Service;
 
     @Value("${secret.prefix}")
     private String prefix;
-
-    @Value("${image.upload.dir}")
-    private String imageDirPath;
 
     private void isExists(String email) {
         userRepository.findByEmail(email).ifPresent(user -> {
@@ -128,7 +125,7 @@ public class UserServiceImpl implements UserService {
         String imageName;
         if (setProfileRequest.getProfileImg() != null) {
             imageName = UUID.randomUUID().toString();
-            setProfileRequest.getProfileImg().transferTo(new File(imageDirPath, imageName));
+            s3Service.upload(setProfileRequest.getProfileImg(), UUID.randomUUID().toString());
             userRepository.save(user.setProfile(imageName, setProfileRequest.getGiturl(), setProfileRequest.getIntroduce()));
         }
         if (setProfileRequest.getSkills() != null) {
