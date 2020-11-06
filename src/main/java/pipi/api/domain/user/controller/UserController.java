@@ -48,4 +48,9 @@ public class UserController {
     public UserInfoResponse showUserInfo() {
         return userService.showUserInfo();
     }
+
+    @GetMapping("/token")
+    public void tokenCheck() {
+
+    }
 }
