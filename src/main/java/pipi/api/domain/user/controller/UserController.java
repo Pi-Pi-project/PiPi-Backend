@@ -43,4 +43,9 @@ public class UserController {
     public void changePassword(@RequestBody @Valid PasswordChangeRequest passwordChangeRequest) {
         userService.changePassword(passwordChangeRequest);
     }
+
+    @GetMapping("/info")
+    public UserInfoResponse showUserInfo() {
+        return userService.showUserInfo();
+    }
 }
