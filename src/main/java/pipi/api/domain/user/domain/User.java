@@ -69,9 +69,6 @@ public class User {
     @OneToMany(mappedBy = "userEmail", cascade = CascadeType.ALL)
     private List<Member> members;
 
-    @OneToMany(mappedBy = "userEmail", cascade = CascadeType.ALL)
-    private List<Calendar> calendars;
-
     public User setProfile(String profileImage, String giturl, String introduce) {
         this.profileImage = profileImage;
         this.giturl = giturl;
