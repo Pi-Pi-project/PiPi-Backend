@@ -5,6 +5,7 @@ import pipi.api.domain.post.domain.Apply;
 import pipi.api.domain.post.domain.Post;
 import pipi.api.domain.profile.domain.Portfolio;
 import pipi.api.domain.project.domain.Member;
+import pipi.api.domain.project.domain.Calendar;
 import pipi.api.domain.user.domain.enums.Admin;
 
 import javax.persistence.*;
@@ -67,6 +68,9 @@ public class User {
 
     @OneToMany(mappedBy = "userEmail", cascade = CascadeType.ALL)
     private List<Member> members;
+
+    @OneToMany(mappedBy = "userEmail", cascade = CascadeType.ALL)
+    private List<Calendar> calendars;
 
     public User setProfile(String profileImage, String giturl, String introduce) {
         this.profileImage = profileImage;

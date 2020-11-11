@@ -24,4 +24,7 @@ public class Project {
 
     @OneToMany(mappedBy = "projectId", cascade = CascadeType.ALL)
     private List<Member> members;
+
+    @OneToMany(mappedBy = "projectId", cascade = CascadeType.ALL)
+    private List<Calendar> calrendars;
 }
