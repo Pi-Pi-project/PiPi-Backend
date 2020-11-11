@@ -13,15 +13,17 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@IdClass(CalendarPK.class)
 public class Calendar {
     @Id
     @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column
     private Long projectId;
 
-    @Id
     @Column(length = 50)
-    private String userEmail;
+    private String userNickname;
 
     @Column(length = 200)
     private String todo;
