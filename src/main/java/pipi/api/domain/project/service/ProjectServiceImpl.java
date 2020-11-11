@@ -23,6 +23,7 @@ import pipi.api.domain.project.dto.GetMyProjectResponse;
 import pipi.api.domain.project.exception.TooManyMemberException;
 import pipi.api.domain.user.domain.User;
 import pipi.api.domain.user.domain.repository.UserRepository;
+import pipi.api.global.S3Service;
 import pipi.api.global.config.AuthenticationFacade;
 import pipi.api.global.error.exception.UserNotFoundException;
 
@@ -40,6 +41,7 @@ public class ProjectServiceImpl implements ProjectService {
     private final AuthenticationFacade authenticationFacade;
     private final ApplyRepository applyRepository;
     private final MemberRepository memberRepository;
+    private final S3Service s3Service;
 
     @Override
     @Transactional
@@ -72,6 +74,7 @@ public class ProjectServiceImpl implements ProjectService {
                             .build()
             );
         }
+        s3Service.delete(post.getImg());
         postRepository.deleteById(postId);
     }
 
