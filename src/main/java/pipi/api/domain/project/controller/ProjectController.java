@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import pipi.api.domain.project.dto.CreateProjectRequest;
+import pipi.api.domain.project.dto.CreateTodoRequest;
 import pipi.api.domain.project.dto.GetMyProjectResponse;
 import pipi.api.domain.project.service.ProjectService;
 
@@ -24,5 +25,10 @@ public class ProjectController {
     @GetMapping
     public List<GetMyProjectResponse> getMyProject(@PageableDefault(size = 10) Pageable pageable) {
         return projectService.getMyProject(pageable);
+    }
+
+    @PostMapping("/todo")
+    public void createTodo(CreateTodoRequest createTodoRequest) {
+        projectService.createTodo(createTodoRequest);
     }
 }
