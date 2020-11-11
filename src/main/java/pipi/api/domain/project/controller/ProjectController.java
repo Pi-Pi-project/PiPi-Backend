@@ -21,7 +21,7 @@ public class ProjectController {
         projectService.createProject(createProjectRequest);
     }
 
-    @GetMapping("/mine")
+    @GetMapping
     public List<GetMyProjectResponse> getMyProject(@PageableDefault(size = 10) Pageable pageable) {
         return projectService.getMyProject(pageable);
     }
