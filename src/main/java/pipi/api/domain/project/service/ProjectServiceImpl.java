@@ -13,12 +13,16 @@ import pipi.api.domain.post.domain.repository.PostRepository;
 import pipi.api.domain.post.domain.repository.PostSkillsetRepository;
 import pipi.api.domain.post.dto.GetPostsResponse;
 import pipi.api.domain.post.exception.PostNotFoundException;
+import pipi.api.domain.project.domain.Calendar;
 import pipi.api.domain.project.domain.Member;
 import pipi.api.domain.project.domain.Project;
 import pipi.api.domain.project.domain.enums.MemberStatus;
+import pipi.api.domain.project.domain.enums.TodoStatus;
+import pipi.api.domain.project.domain.repository.CalendarRepository;
 import pipi.api.domain.project.domain.repository.MemberRepository;
 import pipi.api.domain.project.domain.repository.ProjectRepository;
 import pipi.api.domain.project.dto.CreateProjectRequest;
+import pipi.api.domain.project.dto.CreateTodoRequest;
 import pipi.api.domain.project.dto.GetMyProjectResponse;
 import pipi.api.domain.project.exception.TooManyMemberException;
 import pipi.api.domain.user.domain.User;
@@ -28,6 +32,8 @@ import pipi.api.global.config.AuthenticationFacade;
 import pipi.api.global.error.exception.UserNotFoundException;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +47,7 @@ public class ProjectServiceImpl implements ProjectService {
     private final AuthenticationFacade authenticationFacade;
     private final ApplyRepository applyRepository;
     private final MemberRepository memberRepository;
+    private final CalendarRepository calendarRepository;
     private final S3Service s3Service;
 
     @Override
@@ -104,5 +111,20 @@ public class ProjectServiceImpl implements ProjectService {
             );
         }
         return projectResponseList;
+    }
+
+    @Override
+    public void createTodo(CreateTodoRequest createTodoRequest) {
+        User user = userRepository.findByEmail(authenticationFacade.getUserEmail())
+                .orElseThrow(UserNotFoundException::new);
+        calendarRepository.save(
+                Calendar.builder()
+                        .projectId(createTodoRequest.getProjectId())
+                        .userNickname(user.getNickname())
+                        .todo(createTodoRequest.getTodo())
+                        .todoStatus(TodoStatus.WAITING)
+                        .date(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+                        .build()
+        );
     }
 }
