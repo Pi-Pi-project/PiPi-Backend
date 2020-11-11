@@ -29,7 +29,7 @@ public class Calendar {
     private String todo;
 
     @Column(length = 20)
-    private String day;
+    private String date;
 
     @Column
     @Enumerated(EnumType.STRING)
