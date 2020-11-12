@@ -12,7 +12,7 @@ import pipi.api.domain.user.domain.User;
 import pipi.api.domain.user.domain.UserSkillset;
 import pipi.api.domain.user.domain.repository.UserRepository;
 import pipi.api.domain.user.domain.repository.UserSkillsetRepository;
-import pipi.api.global.config.AuthenticationFacade;
+import pipi.api.global.config.security.AuthenticationFacade;
 import pipi.api.global.error.exception.UserNotFoundException;
 
 import java.util.List;

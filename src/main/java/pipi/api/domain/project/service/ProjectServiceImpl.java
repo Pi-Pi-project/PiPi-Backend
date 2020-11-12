@@ -11,7 +11,6 @@ import pipi.api.domain.post.domain.enums.Accept;
 import pipi.api.domain.post.domain.repository.ApplyRepository;
 import pipi.api.domain.post.domain.repository.PostRepository;
 import pipi.api.domain.post.domain.repository.PostSkillsetRepository;
-import pipi.api.domain.post.dto.GetPostsResponse;
 import pipi.api.domain.post.exception.PostNotFoundException;
 import pipi.api.domain.project.domain.Calendar;
 import pipi.api.domain.project.domain.Member;
@@ -28,7 +27,7 @@ import pipi.api.domain.project.exception.TooManyMemberException;
 import pipi.api.domain.user.domain.User;
 import pipi.api.domain.user.domain.repository.UserRepository;
 import pipi.api.global.S3Service;
-import pipi.api.global.config.AuthenticationFacade;
+import pipi.api.global.config.security.AuthenticationFacade;
 import pipi.api.global.error.exception.UserNotFoundException;
 
 import javax.transaction.Transactional;

@@ -1,4 +1,4 @@
-package pipi.api.global.config;
+package pipi.api.global.config.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;

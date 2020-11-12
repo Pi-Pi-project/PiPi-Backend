@@ -2,7 +2,6 @@ package pipi.api.domain.post.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -24,11 +23,10 @@ import pipi.api.domain.user.domain.repository.UserRepository;
 import pipi.api.domain.user.domain.repository.UserSearchLogRepository;
 import pipi.api.domain.user.domain.repository.UserViewLogRepository;
 import pipi.api.global.S3Service;
-import pipi.api.global.config.AuthenticationFacade;
+import pipi.api.global.config.security.AuthenticationFacade;
 import pipi.api.global.error.exception.UserNotFoundException;
 
 import javax.transaction.Transactional;
-import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;

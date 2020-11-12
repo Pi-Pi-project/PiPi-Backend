@@ -1,4 +1,4 @@
-package pipi.api.global.config;
+package pipi.api.global.config.security;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -8,6 +8,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import pipi.api.domain.auth.exception.ExpiredTokenException;
+import pipi.api.global.config.security.AuthDetails;
+import pipi.api.global.config.security.AuthDetailsService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;

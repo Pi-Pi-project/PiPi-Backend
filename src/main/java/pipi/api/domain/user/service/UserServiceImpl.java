@@ -18,11 +18,10 @@ import pipi.api.domain.user.exception.InvalidAuthCodeException;
 import pipi.api.domain.user.exception.InvalidAuthEmailException;
 import pipi.api.domain.user.exception.UserAlreadyExistException;
 import pipi.api.global.S3Service;
-import pipi.api.global.config.AuthenticationFacade;
-import pipi.api.global.config.JwtTokenProvider;
+import pipi.api.global.config.security.AuthenticationFacade;
+import pipi.api.global.config.security.JwtTokenProvider;
 import pipi.api.global.error.exception.UserNotFoundException;
 
-import java.io.File;
 import java.util.Random;
 import java.util.UUID;
 

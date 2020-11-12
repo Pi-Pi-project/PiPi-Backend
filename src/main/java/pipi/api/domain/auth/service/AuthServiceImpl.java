@@ -9,7 +9,7 @@ import pipi.api.domain.auth.exception.InvalidTokenException;
 import pipi.api.domain.user.domain.User;
 import pipi.api.domain.user.domain.repository.UserRepository;
 import pipi.api.domain.user.dto.TokenResponse;
-import pipi.api.global.config.JwtTokenProvider;
+import pipi.api.global.config.security.JwtTokenProvider;
 import pipi.api.global.error.exception.UserNotFoundException;
 
 @Service

@@ -1,4 +1,4 @@
-package pipi.api.global.config;
+package pipi.api.global.config.security;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
