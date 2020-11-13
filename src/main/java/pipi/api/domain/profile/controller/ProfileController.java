@@ -18,12 +18,12 @@ public class ProfileController {
     private final ProfileService profileService;
 
     @GetMapping
-    public ShowProfileResponse getProfile(@RequestParam String email) {
+    public ShowProfileResponse getProfile(@RequestParam @Valid String email) {
         return profileService.getProfile(email);
     }
 
     @GetMapping("/portfolio")
-    public List<Portfolio> getPortfolios(@RequestParam String email) {
+    public List<Portfolio> getPortfolios(@RequestParam @Valid String email) {
         return profileService.getPortfolios(email);
     }
 

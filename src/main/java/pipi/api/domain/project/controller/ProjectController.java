@@ -9,6 +9,7 @@ import pipi.api.domain.project.dto.CreateTodoRequest;
 import pipi.api.domain.project.dto.GetMyProjectResponse;
 import pipi.api.domain.project.service.ProjectService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -18,17 +19,17 @@ public class ProjectController {
     private final ProjectService projectService;
 
     @PostMapping
-    public void createProject(@RequestBody CreateProjectRequest createProjectRequest) {
+    public void createProject(@RequestBody @Valid CreateProjectRequest createProjectRequest) {
         projectService.createProject(createProjectRequest);
     }
 
     @GetMapping
-    public List<GetMyProjectResponse> getMyProject(@PageableDefault(size = 10) Pageable pageable) {
+    public List<GetMyProjectResponse> getMyProject(@PageableDefault(size = 10) @Valid Pageable pageable) {
         return projectService.getMyProject(pageable);
     }
 
     @PostMapping("/todo")
-    public void createTodo(CreateTodoRequest createTodoRequest) {
+    public void createTodo(@RequestBody @Valid CreateTodoRequest createTodoRequest) {
         projectService.createTodo(createTodoRequest);
     }
 }
