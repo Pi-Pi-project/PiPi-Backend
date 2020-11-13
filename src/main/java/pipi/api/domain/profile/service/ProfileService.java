@@ -10,6 +10,6 @@ import java.util.List;
 public interface ProfileService {
     ShowProfileResponse getProfile(String userEmail);
     void addPortfolio(AddPortfolioRequest addPortfolioRequest);
-    List<Portfolio> getPortfolios();
+    List<Portfolio> getPortfolios(String userEmail);
     void selectPortfolio(SelectPortfolioRequest selectPortfolioRequest);
 }

@@ -23,8 +23,8 @@ public class ProfileController {
     }
 
     @GetMapping("/portfolio")
-    public List<Portfolio> getPortfolios() {
-        return profileService.getPortfolios();
+    public List<Portfolio> getPortfolios(@RequestParam String email) {
+        return profileService.getPortfolios(email);
     }
 
     @PostMapping("/portfolio")

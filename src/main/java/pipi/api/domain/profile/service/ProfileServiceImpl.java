@@ -54,8 +54,8 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public List<Portfolio> getPortfolios() {
-        return portfolioRepository.findAllByUserEmail(authenticationFacade.getUserEmail());
+    public List<Portfolio> getPortfolios(String userEmail) {
+        return portfolioRepository.findAllByUserEmail(userEmail);
     }
 
     @Override
