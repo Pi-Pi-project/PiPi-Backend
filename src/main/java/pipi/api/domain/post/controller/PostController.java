@@ -8,6 +8,7 @@ import pipi.api.domain.post.dto.*;
 import pipi.api.domain.post.service.PostService;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @RestController
@@ -22,17 +23,17 @@ public class PostController {
     }
 
     @GetMapping
-    public List<GetPostsResponse> getPosts(@PageableDefault(sort = {"createdAt"}, size = 10) @Valid Pageable page) {
+    public List<GetPostsResponse> getPosts(@PageableDefault(sort = {"createdAt"}, size = 10) @NotBlank Pageable page) {
         return postService.getPosts(page);
     }
 
     @GetMapping("/search")
-    public List<GetPostsResponse> getSearchPosts(@RequestParam(value = "category") @Valid String category, @PageableDefault(sort = {"createdAt"}, size = 10) @Valid Pageable page) {
+    public List<GetPostsResponse> getSearchPosts(@RequestParam(value = "category") @NotBlank String category, @PageableDefault(sort = {"createdAt"}, size = 10) @NotBlank Pageable page) {
         return postService.getSearchPosts(category, page);
     }
 
     @GetMapping("/mine")
-    public List<GetPostsResponse> getMyPosts(@PageableDefault(sort = {"createdAt"}, size = 10) @Valid Pageable page) {
+    public List<GetPostsResponse> getMyPosts(@PageableDefault(sort = {"createdAt"}, size = 10) @NotBlank Pageable page) {
         return postService.getMyPosts(page);
     }
 
@@ -42,17 +43,17 @@ public class PostController {
     }
 
     @GetMapping("/apply")
-    public List<GetPostsResponse> getAppliedPosts(@PageableDefault(size = 10) @Valid Pageable page) {
+    public List<GetPostsResponse> getAppliedPosts(@PageableDefault(size = 10) @NotBlank Pageable page) {
         return postService.getAppliedPosts(page);
     }
 
     @PostMapping("/apply")
-    public void applyOne(@RequestBody @Valid PostApplyRequest postApplyRequest) {
+    public void applyOne(@RequestBody @NotBlank PostApplyRequest postApplyRequest) {
         postService.applyOne(postApplyRequest);
     }
 
     @DeleteMapping("/apply")
-    public void cancleApply(@RequestBody @Valid PostApplyRequest postApplyRequest) {
+    public void cancleApply(@RequestBody @NotBlank PostApplyRequest postApplyRequest) {
         postService.cancleApply(postApplyRequest);
     }
 

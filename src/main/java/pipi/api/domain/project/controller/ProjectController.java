@@ -10,6 +10,7 @@ import pipi.api.domain.project.dto.GetMyProjectResponse;
 import pipi.api.domain.project.service.ProjectService;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @RestController
@@ -24,12 +25,12 @@ public class ProjectController {
     }
 
     @GetMapping
-    public List<GetMyProjectResponse> getMyProject(@PageableDefault(size = 10) @Valid Pageable pageable) {
+    public List<GetMyProjectResponse> getMyProject(@PageableDefault(size = 10) @NotBlank Pageable pageable) {
         return projectService.getMyProject(pageable);
     }
 
     @PostMapping("/todo")
-    public void createTodo(@RequestBody @Valid CreateTodoRequest createTodoRequest) {
+    public void createTodo(@RequestBody @NotBlank CreateTodoRequest createTodoRequest) {
         projectService.createTodo(createTodoRequest);
     }
 }

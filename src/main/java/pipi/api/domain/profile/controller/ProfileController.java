@@ -9,6 +9,7 @@ import pipi.api.domain.profile.dto.ShowProfileResponse;
 import pipi.api.domain.profile.service.ProfileService;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @RestController
@@ -18,12 +19,12 @@ public class ProfileController {
     private final ProfileService profileService;
 
     @GetMapping
-    public ShowProfileResponse getProfile(@RequestParam @Valid String email) {
+    public ShowProfileResponse getProfile(@RequestParam @NotBlank String email) {
         return profileService.getProfile(email);
     }
 
     @GetMapping("/portfolio")
-    public List<Portfolio> getPortfolios(@RequestParam @Valid String email) {
+    public List<Portfolio> getPortfolios(@RequestParam @NotBlank String email) {
         return profileService.getPortfolios(email);
     }
 
