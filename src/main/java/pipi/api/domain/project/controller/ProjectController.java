@@ -33,4 +33,9 @@ public class ProjectController {
     public void createTodo(@RequestBody @NotBlank CreateTodoRequest createTodoRequest) {
         projectService.createTodo(createTodoRequest);
     }
+
+    @PutMapping("/todo")
+    public void successTodo(@PathVariable Long id) {
+        projectService.successTodo(id);
+    }
 }
