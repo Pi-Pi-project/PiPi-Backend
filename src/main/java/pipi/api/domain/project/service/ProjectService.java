@@ -11,4 +11,5 @@ public interface ProjectService {
     void createProject(CreateProjectRequest createProjectRequest);
     List<GetMyProjectResponse> getMyProject(Pageable pageable);
     void createTodo(CreateTodoRequest createTodoRequest);
+    void successTodo(Long id);
 }

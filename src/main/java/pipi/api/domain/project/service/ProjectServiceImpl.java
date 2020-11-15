@@ -23,6 +23,8 @@ import pipi.api.domain.project.domain.repository.ProjectRepository;
 import pipi.api.domain.project.dto.CreateProjectRequest;
 import pipi.api.domain.project.dto.CreateTodoRequest;
 import pipi.api.domain.project.dto.GetMyProjectResponse;
+import pipi.api.domain.project.exception.NotMyTodoException;
+import pipi.api.domain.project.exception.TodoNotFoundException;
 import pipi.api.domain.project.exception.TooManyMemberException;
 import pipi.api.domain.user.domain.User;
 import pipi.api.domain.user.domain.repository.UserRepository;
@@ -114,16 +116,25 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void createTodo(CreateTodoRequest createTodoRequest) {
-        User user = userRepository.findByEmail(authenticationFacade.getUserEmail())
-                .orElseThrow(UserNotFoundException::new);
         calendarRepository.save(
                 Calendar.builder()
                         .projectId(createTodoRequest.getProjectId())
-                        .userNickname(user.getNickname())
+                        .userEmail(authenticationFacade.getUserEmail())
                         .todo(createTodoRequest.getTodo())
                         .todoStatus(TodoStatus.WAITING)
                         .date(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                         .build()
         );
+    }
+
+    @Override
+    public void successTodo(Long id) {
+        User user = userRepository.findByEmail(authenticationFacade.getUserEmail())
+                .orElseThrow(UserNotFoundException::new);
+        Calendar calendar = calendarRepository.findById(id)
+                .orElseThrow(TodoNotFoundException::new);
+        if (user.getEmail() != calendar.getUserEmail())
+            throw new NotMyTodoException();
+        calendarRepository.save(calendar.setStatus(TodoStatus.CHECK));
     }
 }
