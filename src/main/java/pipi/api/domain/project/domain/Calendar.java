@@ -23,7 +23,7 @@ public class Calendar {
     private Long projectId;
 
     @Column(length = 50)
-    private String userNickname;
+    private String userEmail;
 
     @Column(length = 200)
     private String todo;
@@ -34,4 +34,10 @@ public class Calendar {
     @Column
     @Enumerated(EnumType.STRING)
     private TodoStatus todoStatus;
+
+    public Calendar setStatus(TodoStatus todoStatus) {
+        this.todoStatus = todoStatus;
+
+        return this;
+    }
 }
