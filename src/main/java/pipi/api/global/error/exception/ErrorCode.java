@@ -16,9 +16,11 @@ public enum ErrorCode {
     POST_NOT_FOUND(404, "Post Not Found"),
     IMAGE_NOT_FOUND(404, "Image Not Found"),
     PORTFOLIO_NOT_FOUND(404, "Portfolio Not Found"),
+    TODO_NOT_FOUND(404, "Todo Not Found"),
     ALREADY_APPLIED(408, "Already Applied"),
     TOO_MANY_MEMBER(409, "Too Many Member"),
     MY_POST(409, "My Post"),
+    NOT_MY_TODO(409, "Not My Todo"),
     USER_ALREADY_EXISTS(409, "User is Already Exists");
 
     private final int status;
