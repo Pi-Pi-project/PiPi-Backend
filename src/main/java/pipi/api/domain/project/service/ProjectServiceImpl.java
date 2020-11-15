@@ -33,8 +33,6 @@ import pipi.api.global.config.security.AuthenticationFacade;
 import pipi.api.global.error.exception.UserNotFoundException;
 
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -137,4 +135,6 @@ public class ProjectServiceImpl implements ProjectService {
             throw new NotMyTodoException();
         calendarRepository.save(calendar.setStatus(TodoStatus.CHECK));
     }
+
+
 }
