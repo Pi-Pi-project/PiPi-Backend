@@ -122,7 +122,7 @@ public class ProjectServiceImpl implements ProjectService {
                         .userEmail(authenticationFacade.getUserEmail())
                         .todo(createTodoRequest.getTodo())
                         .todoStatus(TodoStatus.WAITING)
-                        .date(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+                        .date(createTodoRequest.getDate())
                         .build()
         );
     }
