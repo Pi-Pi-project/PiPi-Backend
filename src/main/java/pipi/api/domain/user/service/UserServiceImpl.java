@@ -22,6 +22,7 @@ import pipi.api.global.config.security.AuthenticationFacade;
 import pipi.api.global.config.security.JwtTokenProvider;
 import pipi.api.global.error.exception.UserNotFoundException;
 
+import javax.transaction.Transactional;
 import java.util.Random;
 import java.util.UUID;
 
@@ -118,6 +119,7 @@ public class UserServiceImpl implements UserService {
 
     @SneakyThrows
     @Override
+    @Transactional
     public void setProfile(SetProfileRequest setProfileRequest) {
         User user = userRepository.findByEmail(authenticationFacade.getUserEmail())
                 .orElseThrow(UserNotFoundException::new);
