@@ -23,9 +23,7 @@ import pipi.api.domain.project.domain.repository.ProjectRepository;
 import pipi.api.domain.project.dto.CreateProjectRequest;
 import pipi.api.domain.project.dto.CreateTodoRequest;
 import pipi.api.domain.project.dto.GetMyProjectResponse;
-import pipi.api.domain.project.exception.NotMyTodoException;
-import pipi.api.domain.project.exception.TodoNotFoundException;
-import pipi.api.domain.project.exception.TooManyMemberException;
+import pipi.api.domain.project.exception.*;
 import pipi.api.domain.user.domain.User;
 import pipi.api.domain.user.domain.repository.UserRepository;
 import pipi.api.global.S3Service;
@@ -62,6 +60,7 @@ public class ProjectServiceImpl implements ProjectService {
         Project project = projectRepository.save(
                 Project.builder()
                         .title(post.getTitle())
+                        .approval(false)
                         .build()
         );
         memberRepository.save(
@@ -136,5 +135,13 @@ public class ProjectServiceImpl implements ProjectService {
         calendarRepository.save(calendar.setStatus(TodoStatus.CHECK));
     }
 
-
+    @Override
+    public void finishProject(Long id) {
+        Project project = projectRepository.findById(id)
+                .orElseThrow(ProjectNotFoundException::new);
+        Member member = memberRepository.findByUserEmailAndProjectId(authenticationFacade.getUserEmail(), id);
+        if (member.getStatus() != MemberStatus.PM)
+            throw new NotProjectManagerException();
+        projectRepository.save(project.setApproval(true));
+    }
 }
