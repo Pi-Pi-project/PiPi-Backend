@@ -4,6 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import pipi.api.domain.chat.domain.ChatMember;
+import pipi.api.domain.chat.domain.Room;
+import pipi.api.domain.chat.domain.repository.ChatMemberRepository;
+import pipi.api.domain.chat.domain.repository.RoomRepository;
 import pipi.api.domain.post.domain.Apply;
 import pipi.api.domain.post.domain.Post;
 import pipi.api.domain.post.domain.PostSkillset;
@@ -43,6 +47,8 @@ public class ProjectServiceImpl implements ProjectService {
     private final ProjectRepository projectRepository;
     private final PostSkillsetRepository postSkillsetRepository;
     private final UserRepository userRepository;
+    private final RoomRepository roomRepository;
+    private final ChatMemberRepository chatMemberRepository;
     private final AuthenticationFacade authenticationFacade;
     private final ApplyRepository applyRepository;
     private final MemberRepository memberRepository;
@@ -72,12 +78,23 @@ public class ProjectServiceImpl implements ProjectService {
                         .status(MemberStatus.PM)
                         .build()
         );
+        Room room = roomRepository.save(
+                Room.builder()
+                        .title(post.getTitle())
+                        .build()
+        );
         for (Apply apply : applyList) {
             memberRepository.save(
                     Member.builder()
                             .projectId(project.getId())
                             .userEmail(apply.getUserEmail())
                             .status(MemberStatus.MEMBER)
+                            .build()
+            );
+            chatMemberRepository.save(
+                    ChatMember.builder()
+                            .roomId(room.getId())
+                            .userEmail(apply.getUserEmail())
                             .build()
             );
         }
