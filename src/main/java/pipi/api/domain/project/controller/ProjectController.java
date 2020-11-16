@@ -38,4 +38,9 @@ public class ProjectController {
     public void successTodo(@PathVariable Long id) {
         projectService.successTodo(id);
     }
+
+    @PutMapping("/complete")
+    public void finishProject(@PathVariable Long id) {
+        projectService.finishProject(id);
+    }
 }
