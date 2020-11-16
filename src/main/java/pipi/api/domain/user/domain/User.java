@@ -1,6 +1,7 @@
 package pipi.api.domain.user.domain;
 
 import lombok.*;
+import pipi.api.domain.chat.domain.Chat;
 import pipi.api.domain.post.domain.Apply;
 import pipi.api.domain.post.domain.Post;
 import pipi.api.domain.profile.domain.Portfolio;
@@ -71,6 +72,9 @@ public class User {
 
     @OneToMany(mappedBy = "userEmail", cascade = CascadeType.ALL)
     private List<Calendar> calendars;
+
+    @OneToMany(mappedBy = "userEmail", cascade = CascadeType.ALL)
+    private List<Chat> chatList;
 
     public User setProfile(String profileImage, String giturl, String introduce) {
         this.profileImage = profileImage;
