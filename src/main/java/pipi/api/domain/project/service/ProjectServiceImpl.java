@@ -15,6 +15,7 @@ import pipi.api.domain.post.exception.PostNotFoundException;
 import pipi.api.domain.project.domain.Calendar;
 import pipi.api.domain.project.domain.Member;
 import pipi.api.domain.project.domain.Project;
+import pipi.api.domain.project.domain.enums.ApprovalStatus;
 import pipi.api.domain.project.domain.enums.MemberStatus;
 import pipi.api.domain.project.domain.enums.TodoStatus;
 import pipi.api.domain.project.domain.repository.CalendarRepository;
@@ -23,6 +24,7 @@ import pipi.api.domain.project.domain.repository.ProjectRepository;
 import pipi.api.domain.project.dto.CreateProjectRequest;
 import pipi.api.domain.project.dto.CreateTodoRequest;
 import pipi.api.domain.project.dto.GetMyProjectResponse;
+import pipi.api.domain.project.dto.GetTodoResponse;
 import pipi.api.domain.project.exception.*;
 import pipi.api.domain.user.domain.User;
 import pipi.api.domain.user.domain.repository.UserRepository;
@@ -60,7 +62,7 @@ public class ProjectServiceImpl implements ProjectService {
         Project project = projectRepository.save(
                 Project.builder()
                         .title(post.getTitle())
-                        .approval(false)
+                        .approval(ApprovalStatus.WORKING)
                         .build()
         );
         memberRepository.save(
@@ -125,6 +127,27 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public List<GetTodoResponse> getTodo(Long id, String date) {
+        List<Calendar> todos = calendarRepository.findAllByIdAndDate(id, date);
+        List<GetTodoResponse> getTodoResponses = new ArrayList<>();
+        for (Calendar todo : todos) {
+            User writer = userRepository.findByEmail(todo.getUserEmail())
+                    .orElseThrow(UserNotFoundException::new);
+            getTodoResponses.add(
+                    GetTodoResponse.builder()
+                            .id(todo.getId())
+                            .nickname(writer.getNickname())
+                            .date(todo.getDate())
+                            .todo(todo.getTodo())
+                            .todoStatus(todo.getTodoStatus())
+                            .build()
+            );
+        }
+
+        return getTodoResponses;
+    }
+
+    @Override
     public void successTodo(Long id) {
         User user = userRepository.findByEmail(authenticationFacade.getUserEmail())
                 .orElseThrow(UserNotFoundException::new);
@@ -142,6 +165,6 @@ public class ProjectServiceImpl implements ProjectService {
         Member member = memberRepository.findByUserEmailAndProjectId(authenticationFacade.getUserEmail(), id);
         if (member.getStatus() != MemberStatus.PM)
             throw new NotProjectManagerException();
-        projectRepository.save(project.setApproval(true));
+        projectRepository.save(project.setApproval(ApprovalStatus.WAITING));
     }
 }
