@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import pipi.api.domain.project.domain.enums.ApprovalStatus;
 
 import javax.persistence.*;
 import java.util.List;
@@ -23,7 +24,7 @@ public class Project {
     private String title;
 
     @Column
-    private boolean approval;
+    private ApprovalStatus approval;
 
     @OneToMany(mappedBy = "projectId", cascade = CascadeType.ALL)
     private List<Member> members;
@@ -31,7 +32,7 @@ public class Project {
     @OneToMany(mappedBy = "projectId", cascade = CascadeType.ALL)
     private List<Calendar> calrendars;
 
-    public Project setApproval(boolean approval) {
+    public Project setApproval(ApprovalStatus approval) {
         this.approval = approval;
 
         return this;
