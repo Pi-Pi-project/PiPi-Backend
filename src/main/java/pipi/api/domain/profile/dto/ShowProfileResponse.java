@@ -10,6 +10,7 @@ import java.util.List;
 @Getter
 @Builder
 public class ShowProfileResponse {
+    private final String userEmail;
     private final String profileImg;
     private final String nickname;
     private final List<UserSkillset> skills;

@@ -38,6 +38,7 @@ public class ProfileServiceImpl implements ProfileService {
                 .introduce(user.getIntroduce())
                 .firstPortfolio(user.getFirstPortfolio())
                 .secondPortfolio(user.getSecondPortfolio())
+                .userEmail(userEmail)
                 .build();
     }
 
