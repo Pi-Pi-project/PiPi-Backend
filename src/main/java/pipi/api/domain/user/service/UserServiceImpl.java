@@ -127,6 +127,7 @@ public class UserServiceImpl implements UserService {
             s3Service.upload(setProfileRequest.getProfileImg(), UUID.randomUUID().toString());
             userRepository.save(user.setProfile(imageName, setProfileRequest.getGiturl(), setProfileRequest.getIntroduce()));
         }
+        userSkillsetRepository.deleteAllByUserEmail(authenticationFacade.getUserEmail());
         if (setProfileRequest.getSkills() != null) {
             for (String skill : setProfileRequest.getSkills()) {
                 userSkillsetRepository.save(
