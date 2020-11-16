@@ -22,9 +22,18 @@ public class Project {
     @Column(length = 50)
     private String title;
 
+    @Column
+    private boolean approval;
+
     @OneToMany(mappedBy = "projectId", cascade = CascadeType.ALL)
     private List<Member> members;
 
     @OneToMany(mappedBy = "projectId", cascade = CascadeType.ALL)
     private List<Calendar> calrendars;
+
+    public Project setApproval(boolean approval) {
+        this.approval = approval;
+
+        return this;
+    }
 }
