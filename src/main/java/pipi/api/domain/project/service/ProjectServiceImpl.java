@@ -83,6 +83,12 @@ public class ProjectServiceImpl implements ProjectService {
                         .title(post.getTitle())
                         .build()
         );
+        chatMemberRepository.save(
+                ChatMember.builder()
+                        .roomId(room.getId())
+                        .userEmail(authenticationFacade.getUserEmail())
+                        .build()
+        );
         for (Apply apply : applyList) {
             memberRepository.save(
                     Member.builder()
