@@ -23,6 +23,12 @@ public class Project {
     @Column(length = 50)
     private String title;
 
+    @Column(length = 50)
+    private String img;
+
+    @Column(length = 100)
+    private String idea;
+
     @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private ApprovalStatus approval;

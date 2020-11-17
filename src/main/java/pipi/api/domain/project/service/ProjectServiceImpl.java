@@ -113,23 +113,15 @@ public class ProjectServiceImpl implements ProjectService {
         Page<Member> members = memberRepository.findAllByUserEmail(authenticationFacade.getUserEmail(), pageable);
         List<GetMyProjectResponse> projectResponseList = new ArrayList<>();
         for (Member member : members) {
-            Post post = postRepository.findById(member.getProjectId())
-                    .orElseThrow(PostNotFoundException::new);
-            List<PostSkillset> skills = postSkillsetRepository.findAllByPostId(post.getId());
-            User writer = userRepository.findByEmail(post.getUserEmail())
-                    .orElseThrow(UserNotFoundException::new);
+            Project project = projectRepository.findById(member.getProjectId())
+                    .orElseThrow(ProjectNotFoundException::new);
+            List<PostSkillset> skills = postSkillsetRepository.findAllByPostId(project.getId());
             projectResponseList.add(
                     GetMyProjectResponse.builder()
-                            .id(post.getId())
-                            .title(post.getTitle())
-                            .img(post.getImg())
-                            .category(post.getCategory())
-                            .idea(post.getIdea())
-                            .postSkillsets(skills)
-                            .userEmail(writer.getEmail())
-                            .userImg(writer.getProfileImage())
-                            .userNickname(writer.getNickname())
-                            .createdAt(post.getCreatedAt())
+                            .id(project.getId())
+                            .title(project.getTitle())
+                            .img(project.getImg())
+                            .idea(project.getIdea())
                             .build()
             );
         }
