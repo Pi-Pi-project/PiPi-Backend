@@ -123,12 +123,12 @@ public class UserServiceImpl implements UserService {
     public void setProfile(SetProfileRequest setProfileRequest) {
         User user = userRepository.findByEmail(authenticationFacade.getUserEmail())
                 .orElseThrow(UserNotFoundException::new);
-        String imageName;
+        String imageName = "user.jpg";
         if (setProfileRequest.getProfileImg() != null) {
             imageName = UUID.randomUUID().toString();
             s3Service.upload(setProfileRequest.getProfileImg(), imageName);
-            userRepository.save(user.setProfile(imageName, setProfileRequest.getGiturl(), setProfileRequest.getIntroduce()));
         }
+        userRepository.save(user.setProfile(imageName, setProfileRequest.getGiturl(), setProfileRequest.getIntroduce()));
         userSkillsetRepository.deleteAllByUserEmail(authenticationFacade.getUserEmail());
         if (setProfileRequest.getSkills() != null) {
             for (String skill : setProfileRequest.getSkills()) {
