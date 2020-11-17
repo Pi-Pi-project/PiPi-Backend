@@ -23,7 +23,8 @@ public class Project {
     @Column(length = 50)
     private String title;
 
-    @Column
+    @Column(length = 20)
+    @Enumerated(EnumType.STRING)
     private ApprovalStatus approval;
 
     @OneToMany(mappedBy = "projectId", cascade = CascadeType.ALL)
