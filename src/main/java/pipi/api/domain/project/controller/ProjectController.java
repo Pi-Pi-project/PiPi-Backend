@@ -40,7 +40,7 @@ public class ProjectController {
         return projectService.getTodo(id, date);
     }
 
-    @PutMapping("/todo")
+    @PutMapping("/todo/{id}")
     public void successTodo(@PathVariable Long id) {
         projectService.successTodo(id);
     }
