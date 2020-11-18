@@ -44,6 +44,11 @@ public class UserController {
         userService.changePassword(passwordChangeRequest);
     }
 
+    @PostMapping("/report")
+    public void reportUser(@RequestBody @Valid UserReportRequest userReportRequest) {
+        userService.userReport(userReportRequest);
+    }
+
     @GetMapping("/info")
     public UserInfoResponse showUserInfo() {
         return userService.showUserInfo();
