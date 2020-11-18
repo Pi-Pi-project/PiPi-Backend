@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface CalendarRepository extends JpaRepository<Calendar, Long> {
-    List<Calendar> findAllByIdAndDate(Long id, String date);
+    List<Calendar> findAllByProjectIdAndDate(Long id, String date);
 }

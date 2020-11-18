@@ -143,7 +143,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<GetTodoResponse> getTodo(Long id, String date) {
-        List<Calendar> todos = calendarRepository.findAllByIdAndDate(id, date);
+        List<Calendar> todos = calendarRepository.findAllByProjectIdAndDate(id, date);
         List<GetTodoResponse> getTodoResponses = new ArrayList<>();
         for (Calendar todo : todos) {
             User writer = userRepository.findByEmail(todo.getUserEmail())
