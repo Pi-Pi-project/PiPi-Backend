@@ -22,7 +22,8 @@ public enum ErrorCode {
     TOO_MANY_MEMBER(409, "Too Many Member"),
     MY_POST(409, "My Post"),
     USER_ALREADY_EXISTS(409, "User is Already Exists"),
-    NOT_PM(409, "Not PM");
+    NOT_PM(409, "Not PM"),
+    NOT_ADMIN(409, "Not Admin");
 
     private final int status;
     private final String message;
