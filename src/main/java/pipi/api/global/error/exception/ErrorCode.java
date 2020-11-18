@@ -21,7 +21,6 @@ public enum ErrorCode {
     ALREADY_APPLIED(408, "Already Applied"),
     TOO_MANY_MEMBER(409, "Too Many Member"),
     MY_POST(409, "My Post"),
-    NOT_MY_TODO(409, "Not My Todo"),
     USER_ALREADY_EXISTS(409, "User is Already Exists"),
     NOT_PM(409, "Not PM");
 

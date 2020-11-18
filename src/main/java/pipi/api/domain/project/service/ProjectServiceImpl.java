@@ -164,12 +164,8 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void successTodo(Long id) {
-        User user = userRepository.findByEmail(authenticationFacade.getUserEmail())
-                .orElseThrow(UserNotFoundException::new);
         Calendar calendar = calendarRepository.findById(id)
                 .orElseThrow(TodoNotFoundException::new);
-        if (user.getEmail() != calendar.getUserEmail())
-            throw new NotMyTodoException();
         calendarRepository.save(calendar.setStatus(TodoStatus.CHECK));
     }
 
