@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
-import pipi.api.domain.project.dto.CreateProjectRequest;
-import pipi.api.domain.project.dto.CreateTodoRequest;
-import pipi.api.domain.project.dto.GetMyProjectResponse;
-import pipi.api.domain.project.dto.GetTodoResponse;
+import pipi.api.domain.project.dto.*;
 import pipi.api.domain.project.service.ProjectService;
 
 import javax.validation.Valid;
@@ -46,7 +43,7 @@ public class ProjectController {
     }
 
     @PutMapping("/complete")
-    public void finishProject(@PathVariable Long id) {
-        projectService.finishProject(id);
+    public void finishProject(@RequestBody FinishProjectRequest finishProjectRequest) {
+        projectService.finishProject(finishProjectRequest);
     }
 }

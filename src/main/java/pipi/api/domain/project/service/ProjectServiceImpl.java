@@ -16,19 +16,18 @@ import pipi.api.domain.post.domain.repository.ApplyRepository;
 import pipi.api.domain.post.domain.repository.PostRepository;
 import pipi.api.domain.post.domain.repository.PostSkillsetRepository;
 import pipi.api.domain.post.exception.PostNotFoundException;
+import pipi.api.domain.project.domain.Approval;
 import pipi.api.domain.project.domain.Calendar;
 import pipi.api.domain.project.domain.Member;
 import pipi.api.domain.project.domain.Project;
 import pipi.api.domain.project.domain.enums.ApprovalStatus;
 import pipi.api.domain.project.domain.enums.MemberStatus;
 import pipi.api.domain.project.domain.enums.TodoStatus;
+import pipi.api.domain.project.domain.repository.ApprovalRepository;
 import pipi.api.domain.project.domain.repository.CalendarRepository;
 import pipi.api.domain.project.domain.repository.MemberRepository;
 import pipi.api.domain.project.domain.repository.ProjectRepository;
-import pipi.api.domain.project.dto.CreateProjectRequest;
-import pipi.api.domain.project.dto.CreateTodoRequest;
-import pipi.api.domain.project.dto.GetMyProjectResponse;
-import pipi.api.domain.project.dto.GetTodoResponse;
+import pipi.api.domain.project.dto.*;
 import pipi.api.domain.project.exception.*;
 import pipi.api.domain.user.domain.User;
 import pipi.api.domain.user.domain.repository.UserRepository;
@@ -48,6 +47,7 @@ public class ProjectServiceImpl implements ProjectService {
     private final PostSkillsetRepository postSkillsetRepository;
     private final UserRepository userRepository;
     private final RoomRepository roomRepository;
+    private final ApprovalRepository approvalRepository;
     private final ChatMemberRepository chatMemberRepository;
     private final AuthenticationFacade authenticationFacade;
     private final ApplyRepository applyRepository;
@@ -170,12 +170,19 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void finishProject(Long id) {
-        Project project = projectRepository.findById(id)
+    public void finishProject(FinishProjectRequest finishProjectRequest) {
+        Project project = projectRepository.findById(finishProjectRequest.getId())
                 .orElseThrow(ProjectNotFoundException::new);
-        Member member = memberRepository.findByUserEmailAndProjectId(authenticationFacade.getUserEmail(), id);
+        Member member = memberRepository.findByUserEmailAndProjectId(authenticationFacade.getUserEmail(), finishProjectRequest.getId());
         if (member.getStatus() != MemberStatus.PM)
             throw new NotProjectManagerException();
         projectRepository.save(project.setApproval(ApprovalStatus.WAITING));
+        approvalRepository.save(
+                Approval.builder()
+                        .projectId(finishProjectRequest.getId())
+                        .giturl(finishProjectRequest.getGiturl())
+                        .introduce(finishProjectRequest.getIntroduce())
+                        .build()
+        );
     }
 }
