@@ -39,6 +39,9 @@ public class Project {
     @OneToMany(mappedBy = "projectId", cascade = CascadeType.ALL)
     private List<Calendar> calrendars;
 
+    @OneToMany(mappedBy = "projectId", cascade = CascadeType.ALL)
+    private List<Approval> approvals;
+
     public Project setApproval(ApprovalStatus approval) {
         this.approval = approval;
 
