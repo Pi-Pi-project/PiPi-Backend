@@ -6,11 +6,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pipi.api.domain.user.domain.EmailVerification;
+import pipi.api.domain.user.domain.Report;
 import pipi.api.domain.user.domain.User;
 import pipi.api.domain.user.domain.UserSkillset;
 import pipi.api.domain.user.domain.enums.Admin;
 import pipi.api.domain.user.domain.enums.EmailVerificationStatus;
 import pipi.api.domain.user.domain.repository.EmailVerificationRepository;
+import pipi.api.domain.user.domain.repository.ReportRepository;
 import pipi.api.domain.user.domain.repository.UserRepository;
 import pipi.api.domain.user.domain.repository.UserSkillsetRepository;
 import pipi.api.domain.user.dto.*;
@@ -32,6 +34,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final EmailVerificationRepository emailVerificationRepository;
     private final UserSkillsetRepository userSkillsetRepository;
+    private final ReportRepository reportRepository;
     private final EmailService emailService;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
@@ -158,6 +161,17 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByEmail(authenticationFacade.getUserEmail())
                 .orElseThrow(UserNotFoundException::new);
         userRepository.save(user.changePassword(passwordEncoder.encode(passwordChangeRequest.getPassword())));
+    }
+
+    @Override
+    public void userReport(UserReportRequest userReportRequest) {
+        reportRepository.save(
+                Report.builder()
+                        .reportedEmail(userReportRequest.getReportedEmail())
+                        .reporterEmail(authenticationFacade.getUserEmail())
+                        .reason(userReportRequest.getReason())
+                        .build()
+        );
     }
 
     private String randomCode() {

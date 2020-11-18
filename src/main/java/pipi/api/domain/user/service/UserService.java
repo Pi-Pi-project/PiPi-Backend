@@ -10,4 +10,5 @@ public interface UserService {
     void setProfile(SetProfileRequest setProfileRequest);
     void changePassword(PasswordChangeRequest passwordChangeRequest);
     UserInfoResponse showUserInfo();
+    void userReport(UserReportRequest userReportRequest);
 }
