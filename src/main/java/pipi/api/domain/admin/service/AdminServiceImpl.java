@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pipi.api.domain.admin.dto.GetApprovalProjectsResponse;
+import pipi.api.domain.admin.dto.GetDetailUserReportResponse;
 import pipi.api.domain.admin.dto.GetReportUsersResponse;
 import pipi.api.domain.admin.exception.NotAdminException;
 import pipi.api.domain.auth.dto.UserLoginRequest;
@@ -77,13 +78,24 @@ public class AdminServiceImpl implements AdminService {
                     .orElseThrow(UserNotFoundException::new);
             getReportUsersResponses.add(
                     GetReportUsersResponse.builder()
-                            .userEmail(user.getEmail())
+                            .reporterEmail(report.getReporterEmail())
+                            .reportedEmail(user.getEmail())
                             .profileImg(user.getProfileImage())
                             .userNickname(user.getNickname())
                             .build()
             );
         }
         return getReportUsersResponses;
+    }
+
+    @Override
+    public GetDetailUserReportResponse getDetailUserReport(String reportedEmail, String reporterEmail) {
+        Report report = reportRepository.findByReportedEmailAndReporterEmail(reportedEmail, reporterEmail);
+        return GetDetailUserReportResponse.builder()
+                .reportedEmail(reportedEmail)
+                .reporterEmail(reporterEmail)
+                .reason(report.getReason())
+                .build();
     }
 
     private TokenResponse responseToken(String email) {
