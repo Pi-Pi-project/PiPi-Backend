@@ -35,6 +35,16 @@ public class AdminController {
         return adminService.getDetailApprovalProject(id);
     }
 
+    @DeleteMapping("/project/accept")
+    public void acceptProject(@PathVariable Long id) {
+        adminService.acceptProject(id);
+    }
+
+    @DeleteMapping("/project/deny")
+    public void denyProject(@PathVariable Long id) {
+
+    }
+
     @GetMapping("/report")
     public List<GetReportUsersResponse> getReportsUsers(@PageableDefault(size = 10) Pageable pageable) {
         return adminService.getReportUsers(pageable);
