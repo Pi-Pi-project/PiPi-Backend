@@ -8,4 +8,5 @@ import pipi.api.domain.user.domain.ReportPK;
 @Repository
 public interface ReportRepository extends JpaRepository<Report, ReportPK> {
     Report findByReportedEmailAndReporterEmail(String reportedEmail, String reporterEmail);
+    void deleteByReportedEmailAndReporterEmail(String reportedEmail, String reporterEmail);
 }
