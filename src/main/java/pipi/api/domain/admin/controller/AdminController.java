@@ -2,11 +2,10 @@ package pipi.api.domain.admin.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.web.bind.annotation.*;
 import pipi.api.domain.admin.dto.GetApprovalProjectsResponse;
+import pipi.api.domain.admin.dto.GetDetailUserReportResponse;
 import pipi.api.domain.admin.dto.GetReportUsersResponse;
 import pipi.api.domain.admin.service.AdminService;
 import pipi.api.domain.auth.dto.UserLoginRequest;
@@ -26,12 +25,17 @@ public class AdminController {
     }
 
     @GetMapping("/project")
-    public List<GetApprovalProjectsResponse> getApprovalProjects(Pageable pageable) {
+    public List<GetApprovalProjectsResponse> getApprovalProjects(@PageableDefault(size = 10) Pageable pageable) {
         return adminService.getApprovalProjects(pageable);
     }
 
     @GetMapping("/report")
-    public List<GetReportUsersResponse> getReportsUsers(Pageable pageable) {
+    public List<GetReportUsersResponse> getReportsUsers(@PageableDefault(size = 10) Pageable pageable) {
         return adminService.getReportUsers(pageable);
+    }
+
+    @GetMapping("/report")
+    public GetDetailUserReportResponse getDetailUserReport(@PathVariable String reportedEmail, @PathVariable String reporterEmail) {
+        return adminService.getDetailUserReport(reportedEmail, reporterEmail);
     }
 }
