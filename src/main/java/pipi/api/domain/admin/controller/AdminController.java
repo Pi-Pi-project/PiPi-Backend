@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import pipi.api.domain.admin.dto.GetApprovalProjectsResponse;
+import pipi.api.domain.admin.dto.GetDetailApprovalProjectResponse;
 import pipi.api.domain.admin.dto.GetDetailUserReportResponse;
 import pipi.api.domain.admin.dto.GetReportUsersResponse;
 import pipi.api.domain.admin.service.AdminService;
@@ -27,6 +28,11 @@ public class AdminController {
     @GetMapping("/project")
     public List<GetApprovalProjectsResponse> getApprovalProjects(@PageableDefault(size = 10) Pageable pageable) {
         return adminService.getApprovalProjects(pageable);
+    }
+
+    @GetMapping("/project")
+    public GetDetailApprovalProjectResponse getDetailApprovalProject(@PathVariable Long id) {
+        return adminService.getDetailApprovalProject(id);
     }
 
     @GetMapping("/report")
