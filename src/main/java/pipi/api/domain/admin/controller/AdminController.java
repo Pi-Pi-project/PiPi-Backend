@@ -36,13 +36,13 @@ public class AdminController {
     }
 
     @DeleteMapping("/project/accept")
-    public void acceptProject(@PathVariable Long id) {
-        adminService.acceptProject(id);
+    public void acceptApproval(@PathVariable Long id) {
+        adminService.acceptApproval(id);
     }
 
     @DeleteMapping("/project/deny")
-    public void denyProject(@PathVariable Long id) {
-
+    public void denyApproval(@PathVariable Long id) {
+        adminService.denyApproval(id);
     }
 
     @GetMapping("/report")
