@@ -7,8 +7,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pipi.api.domain.admin.dto.GetApprovalProjectsResponse;
+import pipi.api.domain.admin.dto.GetDetailApprovalProjectResponse;
 import pipi.api.domain.admin.dto.GetDetailUserReportResponse;
 import pipi.api.domain.admin.dto.GetReportUsersResponse;
+import pipi.api.domain.admin.exception.ApprovalNotFoundExcpetion;
 import pipi.api.domain.admin.exception.NotAdminException;
 import pipi.api.domain.auth.dto.UserLoginRequest;
 import pipi.api.domain.project.domain.Approval;
@@ -95,6 +97,20 @@ public class AdminServiceImpl implements AdminService {
                 .reportedEmail(reportedEmail)
                 .reporterEmail(reporterEmail)
                 .reason(report.getReason())
+                .build();
+    }
+
+    @Override
+    public GetDetailApprovalProjectResponse getDetailApprovalProject(Long projectId) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(ProjectNotFoundException::new);
+        Approval approval = approvalRepository.findById(projectId)
+                .orElseThrow(ApprovalNotFoundExcpetion::new);
+        return GetDetailApprovalProjectResponse.builder()
+                .projectId(project.getId())
+                .title(project.getTitle())
+                .giturl(approval.getGiturl())
+                .introduce(approval.getIntroduce())
                 .build();
     }
 
