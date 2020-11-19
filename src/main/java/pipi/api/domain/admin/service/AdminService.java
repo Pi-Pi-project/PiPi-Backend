@@ -16,4 +16,6 @@ public interface AdminService {
     List<GetReportUsersResponse> getReportUsers(Pageable pageable);
     GetDetailUserReportResponse getDetailUserReport(String reportedEmail, String reporterEmail);
     GetDetailApprovalProjectResponse getDetailApprovalProject(Long projectId);
+    void acceptApproval(Long projectId);
+    void denyApproval(Long projectId);
 }

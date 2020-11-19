@@ -15,6 +15,7 @@ import pipi.api.domain.admin.exception.NotAdminException;
 import pipi.api.domain.auth.dto.UserLoginRequest;
 import pipi.api.domain.project.domain.Approval;
 import pipi.api.domain.project.domain.Project;
+import pipi.api.domain.project.domain.enums.ApprovalStatus;
 import pipi.api.domain.project.domain.repository.ApprovalRepository;
 import pipi.api.domain.project.domain.repository.ProjectRepository;
 import pipi.api.domain.project.exception.ProjectNotFoundException;
@@ -27,6 +28,7 @@ import pipi.api.domain.user.dto.TokenResponse;
 import pipi.api.global.config.security.JwtTokenProvider;
 import pipi.api.global.error.exception.UserNotFoundException;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -112,6 +114,24 @@ public class AdminServiceImpl implements AdminService {
                 .giturl(approval.getGiturl())
                 .introduce(approval.getIntroduce())
                 .build();
+    }
+
+    @Override
+    @Transactional
+    public void acceptApproval(Long projectId) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(ProjectNotFoundException::new);
+        projectRepository.save(project.setApproval(ApprovalStatus.ACCEPTED));
+        approvalRepository.deleteByProjectId(projectId);
+    }
+
+    @Override
+    @Transactional
+    public void denyApproval(Long projectId) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(ProjectNotFoundException::new);
+        projectRepository.save(project.setApproval(ApprovalStatus.DENIED));
+        approvalRepository.deleteByProjectId(projectId);
     }
 
     private TokenResponse responseToken(String email) {
