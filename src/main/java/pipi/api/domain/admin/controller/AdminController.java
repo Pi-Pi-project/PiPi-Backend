@@ -54,4 +54,14 @@ public class AdminController {
     public GetDetailUserReportResponse getDetailUserReport(@PathVariable String reportedEmail, @PathVariable String reporterEmail) {
         return adminService.getDetailUserReport(reportedEmail, reporterEmail);
     }
+
+    @DeleteMapping("/report/accept")
+    public void acceptReport(@PathVariable String reportedEmail, @PathVariable String reporterEmail) {
+        adminService.acceptReport(reportedEmail, reporterEmail);
+    }
+
+    @DeleteMapping("/report/deny")
+    public void denyReport(@PathVariable String reportedEmail, @PathVariable String reporterEmail) {
+        adminService.denyReport(reportedEmail, reporterEmail);
+    }
 }
