@@ -1,12 +1,18 @@
 package pipi.api.domain.admin.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pipi.api.domain.admin.dto.GetApprovalProjectsResponse;
+import pipi.api.domain.admin.dto.GetReportUsersResponse;
 import pipi.api.domain.admin.service.AdminService;
 import pipi.api.domain.auth.dto.UserLoginRequest;
 import pipi.api.domain.user.dto.TokenResponse;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/admin")
@@ -17,5 +23,15 @@ public class AdminController {
     @PostMapping("/auth")
     public TokenResponse adminLogin(UserLoginRequest userLoginRequest) {
         return adminService.adminLogin(userLoginRequest);
+    }
+
+    @GetMapping("/project")
+    public List<GetApprovalProjectsResponse> getApprovalProjects(Pageable pageable) {
+        return adminService.getApprovalProjects(pageable);
+    }
+
+    @GetMapping("/report")
+    public List<GetReportUsersResponse> getReportsUsers(Pageable pageable) {
+        return adminService.getReportUsers(pageable);
     }
 }
