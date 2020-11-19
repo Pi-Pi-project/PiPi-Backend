@@ -6,4 +6,5 @@ import pipi.api.domain.project.domain.Approval;
 
 @Repository
 public interface ApprovalRepository extends JpaRepository<Approval, Long> {
+    void deleteByProjectId(Long projectId);
 }
