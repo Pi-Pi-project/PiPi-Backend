@@ -8,6 +8,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
+@IdClass(ReportPK.class)
 public class Report {
     @Id
     @Column(length = 50)
