@@ -134,6 +134,19 @@ public class AdminServiceImpl implements AdminService {
         approvalRepository.deleteByProjectId(projectId);
     }
 
+    @Override
+    @Transactional
+    public void acceptReport(String reportedEmail, String reporterEmail) {
+        reportRepository.deleteByReportedEmailAndReporterEmail(reportedEmail, reporterEmail);
+        userRepository.deleteByEmail(reportedEmail);
+    }
+
+    @Override
+    @Transactional
+    public void denyReport(String reportedEmail, String reporterEmail) {
+        reportRepository.deleteByReportedEmailAndReporterEmail(reportedEmail, reporterEmail);
+    }
+
     private TokenResponse responseToken(String email) {
         return TokenResponse.builder()
                 .accessToken(jwtTokenProvider.generateAccessToken(email))

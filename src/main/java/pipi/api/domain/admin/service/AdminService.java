@@ -18,4 +18,6 @@ public interface AdminService {
     GetDetailApprovalProjectResponse getDetailApprovalProject(Long projectId);
     void acceptApproval(Long projectId);
     void denyApproval(Long projectId);
+    void acceptReport(String reportedEmail, String reporterEmail);
+    void denyReport(String reportedEmail, String reporterEmail);
 }
