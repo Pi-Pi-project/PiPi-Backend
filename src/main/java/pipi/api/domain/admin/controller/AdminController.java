@@ -30,7 +30,7 @@ public class AdminController {
         return adminService.getApprovalProjects(pageable);
     }
 
-    @GetMapping("/project")
+    @GetMapping("/project/detail")
     public GetDetailApprovalProjectResponse getDetailApprovalProject(@PathVariable Long id) {
         return adminService.getDetailApprovalProject(id);
     }
@@ -40,7 +40,7 @@ public class AdminController {
         return adminService.getReportUsers(pageable);
     }
 
-    @GetMapping("/report")
+    @GetMapping("/report/detail")
     public GetDetailUserReportResponse getDetailUserReport(@PathVariable String reportedEmail, @PathVariable String reporterEmail) {
         return adminService.getDetailUserReport(reportedEmail, reporterEmail);
     }
