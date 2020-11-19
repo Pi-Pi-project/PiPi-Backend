@@ -22,6 +22,9 @@ public class Room {
     @Column(length = 50)
     private String title;
 
+    @Column(length = 50)
+    private String coverImg;
+
     @OneToMany(mappedBy = "roomId", cascade = CascadeType.ALL)
     private List<Chat> chatList;
 }
