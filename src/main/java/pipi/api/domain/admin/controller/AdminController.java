@@ -21,7 +21,7 @@ public class AdminController {
     private final AdminService adminService;
 
     @PostMapping("/auth")
-    public TokenResponse adminLogin(UserLoginRequest userLoginRequest) {
+    public TokenResponse adminLogin(@RequestBody UserLoginRequest userLoginRequest) {
         return adminService.adminLogin(userLoginRequest);
     }
 
