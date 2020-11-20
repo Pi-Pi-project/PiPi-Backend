@@ -86,7 +86,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<GetPostsResponse> getPosts(Pageable pageable) {
-        Page<Post> posts = postRepository.findAllBy(pageable);
+        Page<Post> posts = postRepository.findAllByOrderByCreatedAtDesc(pageable);
         List<GetPostsResponse> getPostsResponses = new ArrayList<>();
         for (Post post : posts) {
             User writer = userRepository.findByEmail(post.getUserEmail())
@@ -238,7 +238,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<GetPostsResponse> getSearchPosts(String category, Pageable pageable) {
-        Page<Post> posts = postRepository.findAllByCategory(category, pageable);
+        Page<Post> posts = postRepository.findAllByCategoryOrderByCreatedAtDesc(category, pageable);
         List<GetPostsResponse> getPostsResponses = new ArrayList<>();
         for (Post post : posts) {
             User writer = userRepository.findByEmail(post.getUserEmail())
