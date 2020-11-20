@@ -31,17 +31,17 @@ public class AdminController {
     }
 
     @GetMapping("/project/detail")
-    public GetDetailApprovalProjectResponse getDetailApprovalProject(@PathVariable Long id) {
+    public GetDetailApprovalProjectResponse getDetailApprovalProject(@RequestParam Long id) {
         return adminService.getDetailApprovalProject(id);
     }
 
     @DeleteMapping("/project/accept")
-    public void acceptApproval(@PathVariable Long id) {
+    public void acceptApproval(@RequestParam Long id) {
         adminService.acceptApproval(id);
     }
 
     @DeleteMapping("/project/deny")
-    public void denyApproval(@PathVariable Long id) {
+    public void denyApproval(@RequestParam Long id) {
         adminService.denyApproval(id);
     }
 
@@ -51,17 +51,17 @@ public class AdminController {
     }
 
     @GetMapping("/report/detail")
-    public GetDetailUserReportResponse getDetailUserReport(@PathVariable String reportedEmail, @PathVariable String reporterEmail) {
+    public GetDetailUserReportResponse getDetailUserReport(@RequestParam String reportedEmail, @RequestParam String reporterEmail) {
         return adminService.getDetailUserReport(reportedEmail, reporterEmail);
     }
 
     @DeleteMapping("/report/accept")
-    public void acceptReport(@PathVariable String reportedEmail, @PathVariable String reporterEmail) {
+    public void acceptReport(@RequestParam String reportedEmail, @RequestParam String reporterEmail) {
         adminService.acceptReport(reportedEmail, reporterEmail);
     }
 
     @DeleteMapping("/report/deny")
-    public void denyReport(@PathVariable String reportedEmail, @PathVariable String reporterEmail) {
+    public void denyReport(@RequestParam String reportedEmail, @RequestParam String reporterEmail) {
         adminService.denyReport(reportedEmail, reporterEmail);
     }
 }
