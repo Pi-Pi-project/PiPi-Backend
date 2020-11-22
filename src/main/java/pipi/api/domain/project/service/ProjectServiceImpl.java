@@ -129,6 +129,15 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public GetProjectTitleResponse getProjectTitle(Long id) {
+        Project project = projectRepository.findById(id)
+                .orElseThrow(ProjectNotFoundException::new);
+        return GetProjectTitleResponse.builder()
+                .title(project.getTitle())
+                .build();
+    }
+
+    @Override
     public void createTodo(CreateTodoRequest createTodoRequest) {
         calendarRepository.save(
                 Calendar.builder()
