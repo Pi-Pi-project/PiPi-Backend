@@ -81,6 +81,7 @@ public class ProjectServiceImpl implements ProjectService {
         Room room = roomRepository.save(
                 Room.builder()
                         .title(post.getTitle())
+                        .coverImg(post.getImg())
                         .build()
         );
         chatMemberRepository.save(
