@@ -25,6 +25,9 @@ public class Room {
     @Column(length = 50)
     private String coverImg;
 
+    @Column(length = 20)
+    private String updatedAt;
+
     @OneToMany(mappedBy = "roomId", cascade = CascadeType.ALL)
     private List<Chat> chatList;
 }
