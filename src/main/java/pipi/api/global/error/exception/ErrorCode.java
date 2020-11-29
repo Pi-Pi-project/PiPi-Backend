@@ -19,9 +19,10 @@ public enum ErrorCode {
     TODO_NOT_FOUND(404, "Todo Not Found"),
     PROJECT_NOT_FOUND(404, "Project Not Found"),
     APPROVAL_NOT_FOUND(404, "Approval Not Found"),
-    ALREADY_APPLIED(408, "Already Applied"),
+    ROOM_NOT_FOUND(404, "Room Not Found"),
     TOO_MANY_MEMBER(409, "Too Many Member"),
     MY_POST(409, "My Post"),
+    ALREADY_APPLIED(409, "Already Applied"),
     USER_ALREADY_EXISTS(409, "User is Already Exists"),
     NOT_PM(409, "Not PM"),
     NOT_ADMIN(409, "Not Admin");
