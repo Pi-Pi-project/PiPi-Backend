@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping("/chat")
 @RequiredArgsConstructor
 public class ChatController {
-    private ChatService chatService;
+    private final ChatService chatService;
 
     @GetMapping("/{id}")
     public List<GetChatsResponse> getChats(@PathVariable Long id, @PageableDefault(size = 10) Pageable pageable) {
