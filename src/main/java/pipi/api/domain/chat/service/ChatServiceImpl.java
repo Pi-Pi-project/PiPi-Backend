@@ -38,6 +38,7 @@ public class ChatServiceImpl implements ChatService {
                         GetChatsResponse.builder()
                                 .userNickname(user.getNickname())
                                 .message(chat.getMessage())
+                                .profileImg(user.getProfileImage())
                                 .isMine(false)
                                 .build()
                 );

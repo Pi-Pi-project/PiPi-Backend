@@ -8,5 +8,6 @@ import lombok.Getter;
 public class GetChatsResponse {
     private String userNickname;
     private String message;
+    private String profileImg;
     private boolean isMine;
 }
