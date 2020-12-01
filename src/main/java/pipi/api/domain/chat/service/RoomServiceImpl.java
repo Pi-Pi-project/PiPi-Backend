@@ -33,16 +33,18 @@ public class RoomServiceImpl implements RoomService {
             Room room = roomRepository.findById(member.getRoomId())
                     .orElseThrow(RoomNotFoundException::new);
             if (room.getRoomStatus() == RoomStatus.INDIVIDUAL) {
-                ChatMember chatMember = chatMemberRepository.findByRoomId(room.getId());
-                User user = userRepository.findByEmail(chatMember.getUserEmail())
-                        .orElseThrow(UserNotFoundException::new);
-                rooms.add(
-                        GetRoomsResponse.builder()
-                                .id(room.getId())
-                                .title(user.getNickname())
-                                .coverImg(user.getProfileImage())
-                                .build()
-                );
+                List<ChatMember> chatMembers = chatMemberRepository.findByRoomIdAndUserEmailNot(room.getId(), authenticationFacade.getUserEmail());
+                for (ChatMember chatMember : chatMembers) {
+                    User user = userRepository.findByEmail(chatMember.getUserEmail())
+                            .orElseThrow(UserNotFoundException::new);
+                    rooms.add(
+                            GetRoomsResponse.builder()
+                                    .id(room.getId())
+                                    .title(user.getNickname())
+                                    .coverImg(user.getProfileImage())
+                                    .build()
+                    );
+                }
             } else {
                 rooms.add(
                         GetRoomsResponse.builder()
