@@ -25,7 +25,8 @@ public enum ErrorCode {
     ALREADY_APPLIED(409, "Already Applied"),
     USER_ALREADY_EXISTS(409, "User is Already Exists"),
     NOT_PM(409, "Not PM"),
-    NOT_ADMIN(409, "Not Admin");
+    NOT_ADMIN(409, "Not Admin"),
+    ALREADY_CHAT(409, "Already Chat");
 
     private final int status;
     private final String message;
