@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pipi.api.domain.chat.domain.ChatMember;
 import pipi.api.domain.chat.domain.Room;
+import pipi.api.domain.chat.domain.enums.RoomStatus;
 import pipi.api.domain.chat.domain.repository.ChatMemberRepository;
 import pipi.api.domain.chat.domain.repository.RoomRepository;
 import pipi.api.domain.post.domain.Apply;
@@ -36,6 +37,8 @@ import pipi.api.global.config.security.AuthenticationFacade;
 import pipi.api.global.error.exception.UserNotFoundException;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,6 +84,9 @@ public class ProjectServiceImpl implements ProjectService {
         Room room = roomRepository.save(
                 Room.builder()
                         .title(post.getTitle())
+                        .coverImg(post.getImg())
+                        .updatedAt(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")))
+                        .roomStatus(RoomStatus.GROUP)
                         .build()
         );
         chatMemberRepository.save(
@@ -126,6 +132,15 @@ public class ProjectServiceImpl implements ProjectService {
             );
         }
         return projectResponseList;
+    }
+
+    @Override
+    public GetProjectTitleResponse getProjectTitle(Long id) {
+        Project project = projectRepository.findById(id)
+                .orElseThrow(ProjectNotFoundException::new);
+        return GetProjectTitleResponse.builder()
+                .title(project.getTitle())
+                .build();
     }
 
     @Override

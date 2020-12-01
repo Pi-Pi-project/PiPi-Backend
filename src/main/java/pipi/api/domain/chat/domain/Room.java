@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import pipi.api.domain.chat.domain.enums.RoomStatus;
 
 import javax.persistence.*;
 import java.util.List;
@@ -24,6 +25,13 @@ public class Room {
 
     @Column(length = 50)
     private String coverImg;
+
+    @Column(length = 20)
+    private String updatedAt;
+
+    @Column(length = 20)
+    @Enumerated(EnumType.STRING)
+    private RoomStatus roomStatus;
 
     @OneToMany(mappedBy = "roomId", cascade = CascadeType.ALL)
     private List<Chat> chatList;

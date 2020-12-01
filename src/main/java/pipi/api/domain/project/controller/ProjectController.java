@@ -27,6 +27,11 @@ public class ProjectController {
         return projectService.getMyProject(pageable);
     }
 
+    @GetMapping("/info/{id}")
+    public GetProjectTitleResponse getProjectTitle(@PathVariable Long id) {
+        return projectService.getProjectTitle(id);
+    }
+
     @PostMapping("/todo")
     public void createTodo(@RequestBody @NotBlank CreateTodoRequest createTodoRequest) {
         projectService.createTodo(createTodoRequest);

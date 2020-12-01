@@ -23,17 +23,17 @@ public class PostController {
     }
 
     @GetMapping
-    public List<GetPostsResponse> getPosts(@PageableDefault(sort = {"createdAt"}, size = 10) @NotBlank Pageable page) {
+    public List<GetPostsResponse> getPosts(@PageableDefault(size = 10) @NotBlank Pageable page) {
         return postService.getPosts(page);
     }
 
     @GetMapping("/search")
-    public List<GetPostsResponse> getSearchPosts(@RequestParam(value = "category") @NotBlank String category, @PageableDefault(sort = {"createdAt"}, size = 10) @NotBlank Pageable page) {
+    public List<GetPostsResponse> getSearchPosts(@RequestParam(value = "category") @NotBlank String category, @PageableDefault(size = 10) @NotBlank Pageable page) {
         return postService.getSearchPosts(category, page);
     }
 
     @GetMapping("/mine")
-    public List<GetPostsResponse> getMyPosts(@PageableDefault(sort = {"createdAt"}, size = 10) @NotBlank Pageable page) {
+    public List<GetPostsResponse> getMyPosts(@PageableDefault(size = 10) @NotBlank Pageable page) {
         return postService.getMyPosts(page);
     }
 

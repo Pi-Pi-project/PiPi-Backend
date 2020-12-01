@@ -8,6 +8,7 @@ import java.util.List;
 public interface ProjectService {
     void createProject(CreateProjectRequest createProjectRequest);
     List<GetMyProjectResponse> getMyProject(Pageable pageable);
+    GetProjectTitleResponse getProjectTitle(Long id);
     void createTodo(CreateTodoRequest createTodoRequest);
     void successTodo(Long id);
     List<GetTodoResponse> getTodo(Long id, String date);
