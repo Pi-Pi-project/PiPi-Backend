@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ChatService {
     List<GetChatsResponse> getChats(Long id, Pageable pageable);
+    void individualChat(String email);
 }
