@@ -68,7 +68,7 @@ public class ChatServiceImpl implements ChatService {
         for (ChatMember member : members) {
             List<Room> rooms = roomRepository.findAllByIdAndRoomStatus(member.getRoomId(), RoomStatus.INDIVIDUAL);
             for (Room room : rooms) {
-                ChatMember chatMember = chatMemberRepository.findByRoomId(room.getId());
+                ChatMember chatMember = chatMemberRepository.findByRoomIdAndUserEmail(room.getId(), email);
                 if (chatMember != null) {
                     return IndividualChatResponse.builder()
                             .roomId(room.getId())
