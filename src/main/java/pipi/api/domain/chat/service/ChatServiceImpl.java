@@ -32,7 +32,7 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public List<GetChatsResponse> getChats(Long id, Pageable pageable) {
-        Page<Chat> chats = chatRepository.findAllByRoomIdOrderById(id, pageable);
+        Page<Chat> chats = chatRepository.findAllByRoomIdOrderByIdDesc(id, pageable);
         List<GetChatsResponse> chatsResponses = new ArrayList<>();
         for (Chat chat : chats) {
             User user = userRepository.findByEmail(chat.getUserEmail())

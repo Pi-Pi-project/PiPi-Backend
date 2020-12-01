@@ -8,5 +8,5 @@ import pipi.api.domain.chat.domain.Chat;
 
 @Repository
 public interface ChatRepository extends JpaRepository<Chat, Long> {
-    Page<Chat> findAllByRoomIdOrderById(Long id, Pageable pageable);
+    Page<Chat> findAllByRoomIdOrderByIdDesc(Long id, Pageable pageable);
 }
