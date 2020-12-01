@@ -10,5 +10,6 @@ import java.util.List;
 @Repository
 public interface ChatMemberRepository extends JpaRepository<ChatMember, ChatMemberPK> {
     List<ChatMember> findAllByUserEmail(String userEmail);
-    ChatMember findByRoomId(Long id);
+    List<ChatMember> findByRoomIdAndUserEmailNot(Long id, String userEmail);
+    ChatMember findByRoomIdAndUserEmail(Long id, String email);
 }
