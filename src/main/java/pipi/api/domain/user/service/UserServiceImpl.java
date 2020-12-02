@@ -158,7 +158,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void changePassword(PasswordChangeRequest passwordChangeRequest) {
-        User user = userRepository.findByEmail(authenticationFacade.getUserEmail())
+        User user = userRepository.findByEmail(passwordChangeRequest.getEmail())
                 .orElseThrow(UserNotFoundException::new);
         userRepository.save(user.changePassword(passwordEncoder.encode(passwordChangeRequest.getPassword())));
     }
