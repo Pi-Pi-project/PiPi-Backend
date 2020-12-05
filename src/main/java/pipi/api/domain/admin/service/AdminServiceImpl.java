@@ -13,10 +13,14 @@ import pipi.api.domain.admin.dto.GetReportUsersResponse;
 import pipi.api.domain.admin.exception.ApprovalNotFoundExcpetion;
 import pipi.api.domain.admin.exception.NotAdminException;
 import pipi.api.domain.auth.dto.UserLoginRequest;
+import pipi.api.domain.profile.domain.Portfolio;
+import pipi.api.domain.profile.domain.repository.PortfolioRepository;
 import pipi.api.domain.project.domain.Approval;
+import pipi.api.domain.project.domain.Member;
 import pipi.api.domain.project.domain.Project;
 import pipi.api.domain.project.domain.enums.ApprovalStatus;
 import pipi.api.domain.project.domain.repository.ApprovalRepository;
+import pipi.api.domain.project.domain.repository.MemberRepository;
 import pipi.api.domain.project.domain.repository.ProjectRepository;
 import pipi.api.domain.project.exception.ProjectNotFoundException;
 import pipi.api.domain.user.domain.Report;
@@ -38,6 +42,8 @@ public class AdminServiceImpl implements AdminService {
     private final UserRepository userRepository;
     private final ApprovalRepository approvalRepository;
     private final ProjectRepository projectRepository;
+    private final MemberRepository memberRepository;
+    private final PortfolioRepository portfolioRepository;
     private final ReportRepository reportRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
@@ -121,8 +127,21 @@ public class AdminServiceImpl implements AdminService {
     public void acceptApproval(Long projectId) {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(ProjectNotFoundException::new);
+        Approval approval = approvalRepository.findById(projectId)
+                .orElseThrow(ApprovalNotFoundExcpetion::new);
         projectRepository.save(project.setApproval(ApprovalStatus.ACCEPTED));
         approvalRepository.deleteByProjectId(projectId);
+        List<Member> members = memberRepository.findAllByProjectId(projectId);
+        for (Member member : members) {
+            portfolioRepository.save(
+                    Portfolio.builder()
+                            .userEmail(member.getUserEmail())
+                            .giturl(approval.getGiturl())
+                            .introduce(approval.getIntroduce())
+                            .title(project.getTitle())
+                            .build()
+            );
+        }
     }
 
     @Override
