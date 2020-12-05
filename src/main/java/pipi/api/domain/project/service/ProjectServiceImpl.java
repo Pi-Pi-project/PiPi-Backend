@@ -72,6 +72,8 @@ public class ProjectServiceImpl implements ProjectService {
                 Project.builder()
                         .title(post.getTitle())
                         .approval(ApprovalStatus.WORKING)
+                        .img(post.getImg())
+                        .idea(post.getIdea())
                         .build()
         );
         memberRepository.save(
